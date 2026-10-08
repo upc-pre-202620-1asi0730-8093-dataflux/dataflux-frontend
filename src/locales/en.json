@@ -1,0 +1,110 @@
+{
+  "app": {
+    "name": "RentBuild"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "profile": "Profile"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "powered-by": "Powered by",
+    "and": "and"
+  },
+  "iam": {
+    "auth": {
+      "hero-badge": "Equipment rental management",
+      "hero-title-line-1": "Organize your equipment.",
+      "hero-title-line-2": "Stay on top of every rental.",
+      "hero-description": "Manage equipment, requests, rentals and maintenance in one place."
+    },
+    "sign-in": {
+      "title": "Sign in",
+      "subtitle": "Access your RentBuild account",
+      "welcome-back": "Welcome back",
+      "card-title": "Sign in to RentBuild",
+      "card-subtitle": "Access your company workspace.",
+      "email": "Email address",
+      "email-placeholder": "name@company.com",
+      "email-required": "Email is required",
+      "email-invalid": "Enter a valid email address",
+      "password": "Password",
+      "password-required": "Password is required",
+      "toggle-password": "Show or hide password",
+      "remember-me": "Remember me",
+      "forgot-password": "Forgot password?",
+      "submit": "Sign in",
+      "no-account": "Don't have an account?",
+      "new-to-rentbuild": "New to RentBuild?",
+      "create-account": "Create an account",
+      "registration-success": "Your account was created successfully. You can now sign in."
+    }
+  },
+  "dashboard": {
+    "rental-title": "Rental company dashboard",
+    "construction-title": "Construction company dashboard",
+    "rental-company": "Rental Company",
+    "construction-company": "Construction Company",
+    "welcome": "Welcome,",
+    "sign-out": "Sign out"
+  },
+  "sign-up": {
+    "workspace-badge": "Create your workspace",
+    "title": "Register your company",
+    "subtitle": "Set up your account to start managing rentals.",
+    "full-name": "Full name",
+    "full-name-placeholder": "Your name",
+    "full-name-invalid": "Enter your first and last name.",
+    "first-name": "First name",
+    "last-name": "Last name",
+    "email": "Email address",
+    "email-placeholder": "name@company.com",
+    "password": "Password",
+    "confirm-password": "Confirm password",
+    "passwords-do-not-match": "Passwords do not match.",
+    "company-name": "Company name",
+    "company-placeholder": "Company",
+    "organization-type": "Organization type",
+    "rental-company": "Rental company",
+    "construction-company": "Construction company",
+    "create-account": "Create account",
+    "already-account": "Already have an account?",
+    "sign-in": "Sign in",
+    "required": "This field is required.",
+    "invalid-email": "Enter a valid email address.",
+    "password-length": "Password must contain at least 8 characters."
+  },
+  "profile": {
+    "title": "Profile",
+    "personal-information": "Personal information",
+    "contact-information": "Contact information",
+    "organization-information": "Organization information",
+    "first-name": "First name",
+    "last-name": "Last name",
+    "email": "Email",
+    "phone-number": "Phone number",
+    "company-name": "Company name",
+    "street": "Street",
+    "district": "District",
+    "city": "City",
+    "country": "Country",
+    "edit": "Edit profile",
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "not-found": "No profile information was found.",
+    "error": {
+      "first-name-required": "First name is required.",
+      "last-name-required": "Last name is required.",
+      "email-required": "Email is required.",
+      "email-invalid": "Enter a valid email address.",
+      "company-name-required": "Company name is required."
+    },
+    "complete": "Complete your personal and company information using Edit profile.",
+    "retry": "Try again"
+  },
+  "subscriptions": {
+    "plans": {
+      "workspace": "Workspace"
+    }
+  }
+}
