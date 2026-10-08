@@ -1,0 +1,59 @@
+{
+  "users": [],
+  "profiles": [],
+  "equipment-categories": [
+    {
+      "id": 1,
+      "name": "Excavators"
+    },
+    {
+      "id": 2,
+      "name": "Loaders"
+    },
+    {
+      "id": 3,
+      "name": "Compactors"
+    },
+    {
+      "id": 4,
+      "name": "Generators"
+    }
+  ],
+  "equipment": [],
+  "rental-requests": [],
+  "rentals": [],
+  "deliveries": [],
+  "equipment-returns": [],
+  "subscription-plans": [
+    {
+      "id": 1,
+      "name": "Essential",
+      "description": "Start organizing your equipment and reservation requests.",
+      "priceAmount": 79,
+      "priceCurrency": "PEN",
+      "billingCycle": "MONTHLY",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 2,
+      "name": "Professional",
+      "description": "Centralize your company's day-to-day rental operations.",
+      "priceAmount": 149,
+      "priceCurrency": "PEN",
+      "billingCycle": "MONTHLY",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 3,
+      "name": "Growth",
+      "description": "Expand your operational oversight and manage equipment maintenance.",
+      "priceAmount": 249,
+      "priceCurrency": "PEN",
+      "billingCycle": "MONTHLY",
+      "status": "ACTIVE"
+    }
+  ],
+  "user-subscriptions": [],
+  "maintenances": [],
+  "incidents": []
+}
