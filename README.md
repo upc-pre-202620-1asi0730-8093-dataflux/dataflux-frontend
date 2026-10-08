@@ -1,6 +1,6 @@
 # RentBuild — Vue y JavaScript
 
-Base de la aplicación con IAM y Profiles. Los demás contextos se integrarán desde sus ramas cuando sus responsables los preparen.
+Base común de la aplicación. Cada rama feature parte de develop y conserva estos archivos principales junto con su contexto. Los demás contextos se integrarán desde sus ramas cuando sus responsables los preparen.
 
 ## Ejecutar en WebStorm
 
@@ -57,7 +57,11 @@ Para otra API, define VITE_API_BASE_URL en .env.local y VITE_USE_FAKE_API=false.
 
 ## Integración del equipo
 
-Los PR van a develop. Conserva main para la versión integrada y probada. Al añadir un contexto, registra sus servicios en app.services.js, sus rutas en app.routes.js y sus opciones de navegación en App.vue. Añade únicamente las traducciones y endpoints que requiera ese contexto.
+Los PR van a develop. Conserva main para la versión integrada y probada. Al añadir un contexto, expón sus servicios en src/app/<contexto>/application/<contexto>.module.js y sus rutas en src/app/<contexto>/presentation/<contexto>-routes.js. La base los descubre mediante import.meta.glob de Vite, sin importar carpetas que aún no están integradas. Añade únicamente las traducciones y endpoints que requiera ese contexto.
+
+La rama feature/iam contiene la base y el contexto IAM; feature/profiles contiene la misma base y Profiles. Sus PR hacia develop añaden únicamente su contexto. Profiles puede compilar sin IAM, pero para acceder al perfil con una sesión real debe integrarse también IAM. La base sola arranca mostrando el panel principal.
+
+Antes de continuar, guarda tus cambios y actualiza tu rama con git fetch origin y git merge origin/develop. No copies ni vuelvas a añadir toda la base para generar tu commit.
 
 ## Créditos
 

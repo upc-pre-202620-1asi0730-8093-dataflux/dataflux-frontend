@@ -4,19 +4,23 @@ import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useServices, clearSessionData } from './app.services.js';
 import LanguageSwitcher from './shared/presentation/components/language-switcher/LanguageSwitcher.vue';
-const { iam } = useServices();
+const { iam, profiles } = useServices();
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const authPage = computed(() => route.path.startsWith('/iam/'));
+const authPage = computed(() => route.meta.anonymous === true);
 watch(
-  () => iam.currentUserId.value,
+  () => iam?.currentUserId.value ?? null,
   (id, previous) => {
     if (previous !== undefined && id !== previous) clearSessionData();
   },
   { immediate: true, flush: 'sync' },
 );
-const navigation = [['/dashboard', 'dashboard'], ['/profiles/profile', 'profile']];
+const navigation = computed(() => {
+  const links = [['/dashboard', 'dashboard']];
+  if (iam && profiles) links.push(['/profiles/profile', 'profile']);
+  return links;
+});
 </script>
 <template>
   <RouterView v-if="authPage" :key="route.fullPath" />
@@ -34,9 +38,9 @@ const navigation = [['/dashboard', 'dashboard'], ['/profiles/profile', 'profile'
     </aside>
     <div class="workspace-body">
       <header class="topbar">
-        <span>{{ iam.currentEmail.value }}</span>
+        <span>{{ iam?.currentEmail.value || t('app.name') }}</span>
         <div class="actions">
-          <LanguageSwitcher /><button class="secondary" @click="iam.signOut(router)">
+          <LanguageSwitcher /><button v-if="iam?.isSignedIn.value" class="secondary" @click="iam.signOut(router)">
             {{ t('dashboard.sign-out') }}
           </button>
         </div>

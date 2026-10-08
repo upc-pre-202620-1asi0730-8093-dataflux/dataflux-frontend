@@ -8,7 +8,7 @@ import './styles.css';
 configureServices();
 sessionExpired.subscribe(() => {
   const { iam } = useServices();
-  if (iam.isSignedIn.value) iam.signOut(router);
+  if (iam?.isSignedIn.value) iam.signOut(router);
 });
 document.documentElement.lang = i18n.global.locale.value;
 createApp(App).use(i18n).use(router).mount('#app');

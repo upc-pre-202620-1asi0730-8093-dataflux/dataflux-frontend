@@ -1,18 +1,18 @@
-import { register, resolve, sessionEnded } from './shared/infrastructure/services.js';
-import { environment } from '../environments/environment.js';
-import { SIGN_IN_PORT } from './iam/infrastructure/sign-in.port.js';
-import { SignInApiEndpoint } from './iam/infrastructure/sign-in-api-endpoint.js';
-import { FakeSignInApiEndpoint } from './iam/infrastructure/fake-sign-in-api-endpoint.js';
-import { IamStore } from './iam/application/iam.store.js';
-import { ProfilesStore } from './profiles/application/profiles.store.js';
+import { resolve, sessionEnded } from './shared/infrastructure/services.js';
 
+// Each context owns its registrations. The base can start before contexts arrive.
+const modules = Object.values(import.meta.glob('./*/application/*.module.js', { eager: true }));
 export function configureServices() {
-  register(SIGN_IN_PORT, environment.production ? SignInApiEndpoint : FakeSignInApiEndpoint);
+  for (const module of modules) module.configure?.();
 }
 export function useServices() {
-  return { iam: resolve(IamStore), profiles: resolve(ProfilesStore) };
+  const services = {};
+  for (const module of modules) {
+    for (const [name, token] of Object.entries(module.services ?? {})) services[name] = resolve(token);
+  }
+  return services;
 }
 export function clearSessionData() {
   sessionEnded.next();
-  resolve(ProfilesStore).clearProfile();
+  for (const module of modules) module.clearSession?.();
 }
