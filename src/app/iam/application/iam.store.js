@@ -11,6 +11,7 @@ export class IamStore {
   #status = shallowRef(null);
   #busy = shallowRef(false);
   #error = shallowRef(null);
+  #version = 0;
   isSignedIn = shallowReadonly(this.#signedIn);
   currentUserId = shallowReadonly(this.#userId);
   currentEmail = shallowReadonly(this.#email);
@@ -39,10 +40,12 @@ export class IamStore {
   }
   async signIn(command, router) {
     if (this.#busy.value) return;
+    const version = ++this.#version;
     this.#busy.value = true;
     this.#error.value = null;
     try {
       const user = await firstValueFrom(this.#api.signIn(command));
+      if (version !== this.#version) return;
       if (
         user.status !== 'active' ||
         !['rental_company', 'construction_company'].includes(user.role)
@@ -63,29 +66,35 @@ export class IamStore {
       this.#signedIn.value = true;
       await router.push('/dashboard');
     } catch (error) {
+      if (version !== this.#version) return;
       this.#clear();
       this.#error.value = error.message;
     } finally {
-      this.#busy.value = false;
+      if (version === this.#version) this.#busy.value = false;
     }
   }
   async signUp(command, router) {
     if (this.#busy.value) return;
+    const version = ++this.#version;
     this.#busy.value = true;
     this.#error.value = null;
     try {
       await firstValueFrom(this.#api.signUp(command));
+      if (version !== this.#version) return;
       await router.push({ path: '/iam/sign-in', query: { registered: '1' } });
     } catch (error) {
+      if (version !== this.#version) return;
       this.#error.value = error.message;
     } finally {
-      this.#busy.value = false;
+      if (version === this.#version) this.#busy.value = false;
     }
   }
   clearError() {
     this.#error.value = null;
   }
   signOut(router) {
+    ++this.#version;
+    this.#busy.value = false;
     this.#clear();
     this.clearError();
     return router.push('/iam/sign-in');
