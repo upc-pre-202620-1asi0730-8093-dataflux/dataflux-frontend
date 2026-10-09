@@ -6,41 +6,11 @@ import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { EquipmentAssembler } from "../src/app/inventory/infrastructure/equipment-assembler.js";
+import { DateRange } from "../src/app/shared/domain/value-object/date-range.value-object.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
-let child;
-let directory;
-let databasePath;
-let baseUrl;
-
-function equipment(id, userId, code, availabilityBlocks = []) {
-  return {
-    id, userId, code, name: "Demo excavator", description: "Test equipment",
-    categoryId: 1, location: "Lima", dailyRate: 50, weeklyRate: 250,
-    currency: "PEN", status: "AVAILABLE", availabilityBlocks,
-  };
-}
-
-async function request(method, endpoint, body) {
-  const response = await fetch(`${baseUrl}${endpoint}`, {
-    method,
-    headers: { "Content-Type": "application/json" },
-    ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-    signal: AbortSignal.timeout(5000),
-  });
-  return { status: response.status, body: await response.json() };
-}
-
-beforeEach, describe, expect, it } from "vitest";
-import { spawn } from "node:child_process";
-import { once } from "node:events";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { createServer } from "node:net";
-import { tmpdir } from "node:os";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const root = fileURLToPath(new URL("../", import.meta.url));
+const assembler = new EquipmentAssembler();
 let child;
 let directory;
 let databasePath;
@@ -185,4 +155,85 @@ describe("real demo API equipment constraints", () => {
     expect((await request("GET", "/equipment?userId=9")).body).toHaveLength(1);
   });
 
+  it("blocks precisely the scheduled Lima day, keeping adjacent dates available and status unchanged", async () => {
+    expect((await schedule()).status).toBe(201);
+    const resource = (await request("GET", "/equipment/1")).body;
+    expect(resource.status).toBe("AVAILABLE");
+    expect(resource.availabilityBlocks).toEqual([{
+      id: -1,
+      startDate: "2030-03-20T05:00:00.000Z",
+      endDate: "2030-03-21T04:59:59.999Z",
+    }]);
+    expect(isAvailable(resource, "2030-03-20T04:59:59.999Z")).toBe(true);
+    expect(isAvailable(resource, "2030-03-20T05:00:00.000Z")).toBe(false);
+    expect(isAvailable(resource, "2030-03-21T04:59:59.999Z")).toBe(false);
+    expect(isAvailable(resource, "2030-03-21T05:00:00.000Z")).toBe(true);
+    expect(isAvailable(resource, "2026-10-08T17:00:00.000Z")).toBe(true);
+  });
+
+  it("uses the scheduled local date even when its UTC calendar date is different", async () => {
+    await schedule(1, { performedAt: "2030-03-21T02:30:00.000Z" });
+    const resource = (await request("GET", "/equipment/1")).body;
+    expect(isAvailable(resource, "2030-03-20T12:00:00.000Z")).toBe(false);
+    expect(isAvailable(resource, "2030-03-21T12:00:00.000Z")).toBe(true);
+  });
+
+  it("preserves rental reservations and projects maintenance into filtered equipment lists", async () => {
+    await schedule(4);
+    const list = (await request("GET", "/equipment?userId=4")).body;
+    expect(list).toHaveLength(1);
+    expect(list[0].availabilityBlocks[0]).toMatchObject({ id: 17, rentalRequestId: 9 });
+    expect(isAvailable(list[0], "2030-03-20T12:00:00.000Z")).toBe(false);
+    expect(isAvailable(list[0], "2030-03-21T12:00:00.000Z")).toBe(true);
+    expect(isAvailable(list[0], "2030-03-23T12:00:00.000Z")).toBe(false);
+    expect((await request("GET", "/equipment/1")).body.availabilityBlocks).toEqual([]);
+  });
+
+  it("does not block availability for a completed historical maintenance", async () => {
+    const result = await schedule(1, { status: "COMPLETED", performedAt: "2026-10-01T05:00:00.000Z" });
+    expect(result.status).toBe(201);
+    expect((await request("GET", "/equipment/1")).body.availabilityBlocks).toEqual([]);
+  });
+
+  it("rejects invalid maintenance dates and absent equipment without saving either record", async () => {
+    expect((await schedule(1, { performedAt: "not-a-date" })).status).toBe(400);
+    expect((await schedule(99)).status).toBe(404);
+    expect((await request("GET", "/maintenances")).body).toEqual([]);
+    expect((await request("GET", "/equipment/1")).body.availabilityBlocks).toEqual([]);
+  });
+
+  it("rejects a partial maintenance PUT without losing the stored schedule", async () => {
+    const created = await schedule();
+    const result = await request("PUT", `/maintenances/${created.body.id}`, { status: "COMPLETED" });
+    expect(result.status).toBe(400);
+    expect((await request("GET", `/maintenances/${created.body.id}`)).body).toEqual(created.body);
+    expect(isAvailable((await request("GET", "/equipment/1")).body, "2030-03-20T12:00:00.000Z")).toBe(false);
+  });
+
+  it("keeps projected blocks on equipment round trips without persisting stale derived data", async () => {
+    await schedule(4);
+    const resource = (await request("GET", "/equipment/4")).body;
+    const serialized = assembler.toResourceFromEntity(assembler.toEntityFromResource(resource));
+    expect(serialized.availabilityBlocks).toEqual(resource.availabilityBlocks);
+    for (const method of ["PATCH", "PUT"]) {
+      const result = await request(method, "/equipment/4", serialized);
+      expect(result.status).toBe(200);
+      expect(result.body.availabilityBlocks).toEqual(resource.availabilityBlocks);
+      const stored = JSON.parse(await readFile(databasePath, "utf8")).equipment.find((item) => item.id === 4);
+      expect(stored.availabilityBlocks).toEqual([resource.availabilityBlocks[0]]);
+    }
+  });
+
+  it("releases derived blocks when maintenance completes or is deleted, retaining rental reservations", async () => {
+    const first = await schedule(4);
+    const second = await schedule(4, { performedAt: "2030-03-21T05:00:00.000Z" });
+    expect((await request("GET", "/equipment/4")).body.availabilityBlocks).toHaveLength(3);
+    expect((await request("PATCH", `/maintenances/${first.body.id}`, { status: "COMPLETED" })).status).toBe(200);
+    expect((await request("DELETE", `/maintenances/${second.body.id}`)).status).toBe(200);
+    const resource = (await request("GET", "/equipment/4")).body;
+    expect(resource.availabilityBlocks).toHaveLength(1);
+    expect(resource.availabilityBlocks[0].rentalRequestId).toBe(9);
+    expect(isAvailable(resource, "2030-03-20T12:00:00.000Z")).toBe(true);
+    expect(isAvailable(resource, "2030-03-21T12:00:00.000Z")).toBe(true);
+  });
 });
