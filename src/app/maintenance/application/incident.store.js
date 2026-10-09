@@ -313,8 +313,7 @@ export class IncidentStore {
       return;
     }
     if (!IncidentReactivationPolicy.canReactivate(equipmentId, this.#incidentsState.value)) {
-      this.#errorState.value =
-        'There are unresolved blocking incidents or no blocking incident history';
+      this.#errorState.value = 'There are unresolved blocking incidents';
       return;
     }
     this.#reactivatingEquipmentIdState.value = equipmentId;
