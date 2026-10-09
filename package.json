@@ -21,6 +21,7 @@
     "format": "prettier --write src tests *.js *.json *.md server/index.cjs"
   },
   "dependencies": {
+    "primevue": "4.5.5",
     "rxjs": "~7.8.0",
     "vue": "^3.5.0",
     "vue-i18n": "^11.1.0",

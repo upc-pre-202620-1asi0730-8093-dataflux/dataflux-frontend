@@ -1,4 +1,5 @@
 import { createApp, watch } from "vue";
+import PrimeVue from "primevue/config";
 import App from "./app/App.vue";
 import { configureServices, useServices } from "./app/app.services.js";
 import { sessionExpired } from "./app/shared/infrastructure/services.js";
@@ -19,6 +20,7 @@ watch(
   { immediate: true },
 );
 createApp(App)
+  .use(PrimeVue, { unstyled: true })
   .use(i18n)
   .use(router)
   .mount("#app");
