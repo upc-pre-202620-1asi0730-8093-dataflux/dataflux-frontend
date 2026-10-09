@@ -1,5 +1,6 @@
 const jsonServer = require("json-server");
 const path = require("node:path");
+const { installDemoEquipmentRules } = require("./demo-equipment-rules.cjs");
 const server = jsonServer.create();
 const router = jsonServer.router(
   process.env.MAQUIGEST_DB || path.join(__dirname, "db.json"),
@@ -76,6 +77,7 @@ server.post("/api/v1/authentication/sign-up", (req, res) => {
     .status(201)
     .json({ ...user, password: undefined, firstName, lastName, companyName });
 });
+installDemoEquipmentRules(server, router);
 server.use(jsonServer.rewriter(require("./routes.json")));
 server.use(router);
 server.listen(Number(process.env.PORT || 3000), "127.0.0.1", () =>
