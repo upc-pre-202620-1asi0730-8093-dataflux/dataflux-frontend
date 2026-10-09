@@ -49,6 +49,7 @@ export class EquipmentAssembler {
   #toAvailabilityBlock(resource) {
     return new AvailabilityBlock({
       id: resource.id,
+      rentalRequestId: resource.rentalRequestId,
       period: new DateRange({
         startDate: new Date(resource.startDate),
         endDate: new Date(resource.endDate),
@@ -60,6 +61,7 @@ export class EquipmentAssembler {
       id: block.id,
       startDate: block.period.startDate.toISOString(),
       endDate: block.period.endDate.toISOString(),
+      ...(block.rentalRequestId === null ? {} : { rentalRequestId: block.rentalRequestId }),
     };
   }
 }
