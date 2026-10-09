@@ -16,7 +16,7 @@
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1",
     "api": "node server/index.cjs",
-    "test": "vitest run",
+    "test": "vitest run --maxWorkers=2",
     "test:e2e": "playwright test",
     "format": "prettier --write src scripts *.js *.json *.md server/index.cjs"
   },
