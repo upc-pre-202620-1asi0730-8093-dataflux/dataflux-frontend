@@ -6,6 +6,7 @@ export class Rental {
   #rentalCompanyUserId;
   #period;
   #status;
+  #rentalRequestId;
   constructor(props) {
     this.#id = props.id;
     this.#equipmentId = props.equipmentId;
@@ -13,6 +14,14 @@ export class Rental {
     this.#rentalCompanyUserId = props.rentalCompanyUserId;
     this.#period = props.period;
     this.#status = props.status ?? RentalStatus.CONFIRMED;
+    const requestId = props.rentalRequestId ?? null;
+    if (requestId !== null && (!Number.isInteger(requestId) || requestId <= 0)) {
+      throw new Error('Invalid rental request identifier');
+    }
+    this.#rentalRequestId = requestId;
+  }
+  get rentalRequestId() {
+    return this.#rentalRequestId;
   }
   get id() {
     return this.#id;

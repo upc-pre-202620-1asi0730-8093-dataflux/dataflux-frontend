@@ -15,6 +15,7 @@ export class RentalAssembler {
         endDate: new Date(resource.endDate),
       }),
       status: resource.status,
+      rentalRequestId: resource.rentalRequestId,
     });
   }
   toResourceFromEntity(entity) {
@@ -26,6 +27,7 @@ export class RentalAssembler {
       startDate: entity.period.startDate.toISOString(),
       endDate: entity.period.endDate.toISOString(),
       status: entity.status,
+      ...(entity.rentalRequestId === null ? {} : { rentalRequestId: entity.rentalRequestId }),
     };
   }
 }

@@ -11,7 +11,8 @@
     "search-equipment": "Search equipment",
     "rental-requests": "Rental Requests",
     "rentals": "Rentals",
-    "my-requests": "My Requests"
+    "my-requests": "My Requests",
+    "incidents": "Incidents"
   },
   "footer": {
     "rights": "All rights reserved.",
@@ -75,7 +76,8 @@
     "rental-company": "Rental Company",
     "construction-company": "Construction Company",
     "welcome": "Welcome,",
-    "sign-out": "Sign out"
+    "sign-out": "Sign out",
+    "access-unavailable": "Access could not be checked. Please try again when the API is available."
   },
   "sign-up": {
     "workspace-badge": "Create your workspace",

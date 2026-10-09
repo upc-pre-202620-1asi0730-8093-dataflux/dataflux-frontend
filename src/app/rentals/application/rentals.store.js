@@ -19,6 +19,7 @@ import { RentalRequestEligibilityPolicy } from '../domain/policy/rental-request-
 import { EQUIPMENT_REQUEST_AVAILABILITY_PORT } from '../infrastructure/equipment-request-availability.port.js';
 import { MAINTENANCE_INCIDENT_RESTRICTION_PORT } from '../infrastructure/maintenance-incident-restriction.port.js';
 import { RENTAL_REQUESTER_ACCESS_PORT } from '../infrastructure/rental-requester-access.port.js';
+import { RentalOperations } from './rental-operations.js';
 export class RentalsStore {
   #rentalsApi = resolve(RentalsApi);
   #requesterAccess = resolve(RENTAL_REQUESTER_ACCESS_PORT);
@@ -28,6 +29,11 @@ export class RentalsStore {
   #equipmentRequestAvailability = resolve(EQUIPMENT_REQUEST_AVAILABILITY_PORT);
   #maintenanceIncidentRestriction = resolve(MAINTENANCE_INCIDENT_RESTRICTION_PORT);
   #participantInformation = resolve(PARTICIPANT_INFORMATION_PORT);
+  #operations = new RentalOperations({
+    rentalsApi: this.#rentalsApi,
+    equipmentOperation: this.#equipmentOperation,
+    incidentRestriction: this.#maintenanceIncidentRestriction,
+  });
   #readRequestVersion = 0;
   #rentalRequestsState = shallowRef([]);
   rentalRequests = shallowReadonly(this.#rentalRequestsState);
@@ -407,6 +413,7 @@ export class RentalsStore {
       });
   }
   registerDelivery(rentalId, deliveredAt, notes) {
+    if (this.#updatingRentalIdState.value !== null || this.#updatingRequestIdState.value !== null) return;
     const currentRental = this.rentals.value.find((rental) => rental.id === rentalId);
     if (!currentRental) {
       this.#errorState.value = 'Rental not found';
@@ -419,6 +426,7 @@ export class RentalsStore {
       rentalCompanyUserId: currentRental.rentalCompanyUserId,
       period: currentRental.period,
       status: currentRental.status,
+      rentalRequestId: currentRental.rentalRequestId,
     });
     try {
       updatedRental.registerDelivery();
@@ -441,17 +449,8 @@ export class RentalsStore {
     this.#updatingRentalIdState.value = rentalId;
     this.#operationSuccessState.value = null;
     this.#errorState.value = null;
-    this.#rentalsApi
-      .createDelivery(delivery)
-      .pipe(
-        switchMap(() => this.#rentalsApi.updateRental(updatedRental)),
-        switchMap((savedRental) =>
-          this.#equipmentOperation
-            .markAsRented(savedRental.equipmentId)
-            .pipe(map(() => savedRental)),
-        ),
-        takeUntil(sessionEnded),
-      )
+    this.#operations.deliver(currentRental, updatedRental, delivery)
+      .pipe(takeUntil(sessionEnded))
       .subscribe({
         next: (savedRental) => {
           this.#rentalsState.value = ((rentals) =>
@@ -470,6 +469,7 @@ export class RentalsStore {
       });
   }
   registerReturn(rentalId, returnedAt, notes, maintenanceRequired) {
+    if (this.#updatingRentalIdState.value !== null || this.#updatingRequestIdState.value !== null) return;
     const currentRental = this.rentals.value.find((rental) => rental.id === rentalId);
     if (!currentRental) {
       this.#errorState.value = 'Rental not found';
@@ -482,6 +482,7 @@ export class RentalsStore {
       rentalCompanyUserId: currentRental.rentalCompanyUserId,
       period: currentRental.period,
       status: currentRental.status,
+      rentalRequestId: currentRental.rentalRequestId,
     });
     try {
       updatedRental.registerReturn();
@@ -505,18 +506,8 @@ export class RentalsStore {
     this.#updatingRentalIdState.value = rentalId;
     this.#operationSuccessState.value = null;
     this.#errorState.value = null;
-    this.#rentalsApi
-      .createEquipmentReturn(equipmentReturn)
-      .pipe(
-        switchMap(() => this.#rentalsApi.updateRental(updatedRental)),
-        switchMap((savedRental) => {
-          const equipmentUpdate = equipmentReturn.requiresMaintenance()
-            ? this.#equipmentOperation.markAsMaintenance(savedRental.equipmentId)
-            : this.#equipmentOperation.markAsAvailable(savedRental.equipmentId);
-          return equipmentUpdate.pipe(map(() => savedRental));
-        }),
-        takeUntil(sessionEnded),
-      )
+    this.#operations.returnEquipment(currentRental, updatedRental, equipmentReturn)
+      .pipe(takeUntil(sessionEnded))
       .subscribe({
         next: (savedRental) => {
           this.#rentalsState.value = ((rentals) =>
@@ -572,6 +563,7 @@ export class RentalsStore {
     this.#operationSuccessState.value = null;
   }
   #resolveRentalRequest(requestId, targetStatus) {
+    if (this.#updatingRentalIdState.value !== null || this.#updatingRequestIdState.value !== null) return;
     const currentRequest = this.rentalRequests.value.find((request) => request.id === requestId);
     if (!currentRequest) {
       this.#errorState.value = 'Rental request not found';
@@ -613,23 +605,9 @@ export class RentalsStore {
         rentalCompanyUserId: currentRequest.rentalCompanyUserId,
         period: currentRequest.period,
         status: RentalStatus.CONFIRMED,
+        rentalRequestId: currentRequest.id,
       });
-      operation = this.#maintenanceIncidentRestriction
-        .hasOpenBlockingIncident(currentRequest.equipmentId)
-        .pipe(
-          switchMap((hasOpenBlockingIncident) => {
-            if (hasOpenBlockingIncident) {
-              throw new Error('Equipment has an open blocking maintenance incident');
-            }
-            return this.#equipmentOperation.reservePeriod(
-              currentRequest.equipmentId,
-              currentRequest.period.startDate,
-              currentRequest.period.endDate,
-            );
-          }),
-          switchMap(() => this.#rentalsApi.createRental(confirmedRental)),
-          switchMap(() => this.#rentalsApi.updateRentalRequest(updatedRequest)),
-        );
+      operation = this.#operations.approve(updatedRequest, confirmedRental);
     } else {
       operation = this.#rentalsApi.updateRentalRequest(updatedRequest);
     }
