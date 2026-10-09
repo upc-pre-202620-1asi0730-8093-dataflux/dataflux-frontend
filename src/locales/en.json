@@ -4,7 +4,8 @@
   },
   "navigation": {
     "dashboard": "Dashboard",
-    "profile": "Profile"
+    "profile": "Profile",
+    "plan-subscription": "Plan & Subscription"
   },
   "footer": {
     "rights": "All rights reserved.",
@@ -104,7 +105,101 @@
   },
   "subscriptions": {
     "plans": {
-      "workspace": "Workspace"
+      "workspace": "Workspace",
+      "breadcrumb": "Plan & Subscription",
+      "billing": "Billing",
+      "title": "Plan & Subscription",
+      "subtitle": "Compare the available plans and review the features included in each option.",
+      "recommended": "Recommended",
+      "current": "Current plan",
+      "per-month": "/ month",
+      "includes": "Includes",
+      "empty": "There are no plans available at this time.",
+      "load-error": "The available plans could not be loaded.",
+      "note": "Plans and prices are reference values in Peruvian soles (PEN) and are subject to confirmation.",
+      "current-plan-label": "Subscription",
+      "current-plan-title": "Current plan",
+      "subscription-status-label": "Status",
+      "subscription-period": "Billing period",
+      "auto-renew": "Automatic renewal",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "no-current-plan": "No active subscription",
+      "no-current-plan-description": "Choose one of the available plans to activate your RentBuild subscription.",
+      "not-subscribed": "Not subscribed",
+      "available-plans-label": "Available plans",
+      "compare-title": "Choose the right plan for your company",
+      "compare-subtitle": "Compare the available options and select the plan that best matches your operational needs.",
+      "select-plan": "Select plan",
+      "change-plan": "Change plan",
+      "current-plan-button": "Current plan",
+      "confirmation-label": "Subscription confirmation",
+      "confirmation-title": "Confirm your subscription",
+      "confirmation-description": "Review the selected plan before activating your subscription.",
+      "change-confirmation-label": "Plan change",
+      "change-confirmation-title": "Confirm plan change",
+      "change-confirmation-description": "Review the selected plan before updating your subscription.",
+      "selected-plan": "Selected plan",
+      "new-plan": "New plan",
+      "cancel": "Cancel",
+      "subscribing": "Subscribing...",
+      "changing-plan": "Updating plan...",
+      "confirm-subscription": "Confirm subscription",
+      "confirm-change": "Confirm change",
+      "subscription-status": {
+        "active": "Active",
+        "cancelled": "Cancelled",
+        "expired": "Expired"
+      },
+      "plan-names": {
+        "essential": "Essential",
+        "professional": "Professional",
+        "growth": "Growth"
+      },
+      "descriptions": {
+        "essential": "Start organizing your equipment and reservation requests.",
+        "professional": "Centralize your company's day-to-day rental operations.",
+        "growth": "Expand your operational oversight and manage equipment maintenance."
+      },
+      "features": {
+        "essential": {
+          "inventory": "Equipment inventory registration and management.",
+          "availability": "Equipment condition and availability tracking.",
+          "requests": "Reservation request management."
+        },
+        "professional": {
+          "essential": "Everything included in Essential.",
+          "rentals": "Rental and contract management.",
+          "payments": "Rental payment records.",
+          "delivery-return": "Delivery and return records."
+        },
+        "growth": {
+          "professional": "Everything included in Professional.",
+          "incidents": "Incident and inspection records.",
+          "scheduling": "Equipment maintenance scheduling.",
+          "history": "Maintenance history for each piece of equipment."
+        }
+      },
+      "demo-notice": "Academic demo: plans and changes use a fake API; no payment is processed.",
+      "demo-renewal-label": "Saved renewal preference",
+      "demo-renewal-help": "This value does not schedule automatic renewals or charges.",
+      "save-success": "Change recorded in the demo.",
+      "confirm-demo-description": "Confirming only records the selected plan in the fake API.",
+      "keep-period-description": "A change to an active plan keeps its current period; an expired plan starts a new demo month.",
+      "new-period-description": "The demo period begins when you confirm and lasts one calendar month.",
+      "unknown-plan": "Plan unavailable in the catalogue",
+      "errors": {
+        "load-current": "Could not check your current plan. Retry before selecting one.",
+        "create": "Could not save the demo subscription. Try again.",
+        "update": "Could not save the plan change. Try again.",
+        "active-exists": "You already have a current plan. Reload to review it.",
+        "unavailable": "The selected plan is no longer available. Reload the catalogue.",
+        "no-current": "There is no current subscription to change. Reload and select a plan.",
+        "same-plan": "This is already your current plan.",
+        "invalid-data": "Could not verify the demo response. Reload before trying again.",
+        "fallback": "The demo request could not be completed. Try again."
+      },
+      "retry": "Retry loading plans"
     }
   }
 }
