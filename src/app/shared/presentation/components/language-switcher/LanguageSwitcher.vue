@@ -1,15 +1,19 @@
 <script setup>
-import { useI18n } from 'vue-i18n';
+import { useI18n } from "vue-i18n";
+import { saveLocalePreference } from "../../locale-preference.js";
 const { locale, t } = useI18n();
 function change(event) {
-  locale.value = event.target.value;
-  localStorage.setItem('language', locale.value);
-  document.documentElement.lang = locale.value;
+  locale.value = saveLocalePreference(event.target.value);
 }
 </script>
 <template>
-  <select :aria-label="t('common.language')" :value="locale" class="language" @change="change">
-    <option value="es">Español</option>
-    <option value="en">English</option>
+  <select
+    :aria-label="t('common.language')"
+    :value="locale"
+    class="language"
+    @change="change"
+  >
+    <option value="en-US">English</option>
+    <option value="es-419">Español (Latinoamérica)</option>
   </select>
 </template>

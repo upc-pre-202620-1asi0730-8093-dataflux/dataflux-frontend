@@ -9,7 +9,29 @@
   "footer": {
     "rights": "Todos los derechos reservados.",
     "powered-by": "Desarrollado con",
-    "and": "y"
+    "and": "y",
+    "terms": "Términos de la demo"
+  },
+  "terms": {
+    "title": "Términos de la demostración académica",
+    "introduction": "RentBuild es un proyecto universitario de DataFlux para TB1. Este prototipo ilustra una propuesta de gestión de alquiler de equipos.",
+    "scope": {
+      "title": "Alcance de la demostración",
+      "description": "Las pantallas y planes ilustran la propuesta. Esta demostración no ejecuta alquileres, reservas, pagos ni contratos reales. Elegir un plan no realiza un cobro ni inicia facturación automática. El segmento de registro selecciona un tipo de organización; por sí solo no concede permisos."
+    },
+    "data": {
+      "title": "Utiliza datos ficticios",
+      "description": "Utiliza cuentas y registros ficticios con la API de pruebas. No ingreses información personal o financiera real ni reutilices contraseñas de otros servicios. Los registros de prueba pueden reiniciarse y no constituyen un registro de producción de la actividad comercial."
+    },
+    "session": {
+      "title": "Preferencias del navegador y sesión de la demo",
+      "description": "La aplicación guarda el idioma elegido y la sesión de la demo en tu navegador. Cerrar sesión elimina la sesión; conserva la preferencia de idioma. Borrar el almacenamiento del navegador elimina estos valores locales. Los formularios de registro y perfil envían sus datos a la API de pruebas configurada."
+    },
+    "availability": {
+      "title": "Límites del prototipo",
+      "description": "El prototipo está destinado a la evaluación académica. No se han establecido garantías de disponibilidad, autorización ni transacciones comerciales en producción. Estos términos de demostración no reemplazan los de un futuro servicio comercial."
+    },
+    "return": "Volver a la aplicación"
   },
   "iam": {
     "auth": {
