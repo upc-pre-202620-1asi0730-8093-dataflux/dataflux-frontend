@@ -1,6 +1,6 @@
 import { routes as iamRoutes } from "./iam/presentation/iam-routes.js";
 import { createRouter, createWebHistory } from "vue-router";
-import { firstValueFrom } from "rxjs";
+import { checkRouteAccess } from "./route-access.js";
 import { useServices } from "./app.services.js";
 import { resolve } from "./shared/infrastructure/services.js";
 import { SUBSCRIPTION_ACCESS_PORT } from "./rentals/infrastructure/subscription-access.port.js";
@@ -52,6 +52,7 @@ export const routes = [
     path: "/inventory/search",
     component: () =>
       import("./inventory/presentation/views/equipment-search/EquipmentSearch.vue"),
+    meta: { role: "construction_company" },
   },
   { path: "/rentals", redirect: "/rentals/requests" },
   {
@@ -99,32 +100,15 @@ export const routes = [
   },
   { path: "/:pathMatch(.*)*", redirect: "/iam/sign-in" },
 ];
-export async function authorizeRoute(to) {
-  if (to.meta.public) return true;
+export function authorizeRoute(to) {
   const { iam, inventory, rentals } = useServices();
-  if (to.meta.anonymous) return iam.isSignedIn.value ? "/dashboard" : true;
-  if (!iam.isSignedIn.value) return "/iam/sign-in";
-  if (to.meta.role && to.meta.role !== iam.currentRole.value)
-    return "/dashboard";
-  const id = iam.currentUserId.value;
-  try {
-    const checks = {
-      inventory: () => inventory.canManageInventory(id),
-      rentals: () => rentals.canManageRentals(id),
-      requests: () =>
-        resolve(SUBSCRIPTION_ACCESS_PORT).hasActiveSubscription(id),
-      maintenance: () =>
-        resolve(MAINTENANCE_ACCESS_PORT).canRegisterMaintenance(id),
-    };
-    if (
-      checks[to.meta.access] &&
-      !(await firstValueFrom(checks[to.meta.access]()))
-    )
-      return "/subscriptions/plans";
-  } catch {
-    return "/subscriptions/plans";
-  }
-  return true;
+  const checks = {
+    inventory: (id) => inventory.canManageInventory(id),
+    rentals: (id) => rentals.canManageRentals(id),
+    requests: (id) => resolve(SUBSCRIPTION_ACCESS_PORT).hasActiveSubscription(id),
+    maintenance: (id) => resolve(MAINTENANCE_ACCESS_PORT).canRegisterMaintenance(id),
+  };
+  return checkRouteAccess({ ...to, meta: { ...to.meta, accessCheck: checks[to.meta.access] } }, iam);
 }
 export const router = createRouter({
   history: createWebHistory(),

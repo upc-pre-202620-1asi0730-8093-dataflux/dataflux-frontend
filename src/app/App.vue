@@ -37,7 +37,7 @@ const navigation = computed(() => {
         ["/rentals/requests", "rental-requests"],
       );
     if (plan >= 2) options.push(["/rentals/active", "rentals"]);
-    if (plan >= 3) options.push(["/maintenance", "maintenance"]);
+    if (plan >= 3) options.push(["/maintenance", "maintenance"], ["/maintenance/incidents", "incidents"]);
     options.push(["/subscriptions/plans", "plan-subscription"]);
   } else
     options.push(

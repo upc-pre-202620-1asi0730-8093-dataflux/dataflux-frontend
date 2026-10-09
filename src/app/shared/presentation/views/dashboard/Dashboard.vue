@@ -1,22 +1,28 @@
 <script setup>
 import { computed, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
 import { useServices } from "../../../../app.services.js";
 import Feedback from "../../components/feedback/Feedback.vue";
 const { t } = useI18n();
+const route = useRoute();
 const { iam, inventory, rentals, profiles, subscriptions } = useServices();
 const rentalCompany = computed(
-  () => iam.currentRole.value === "rental_company",
+  () => iam?.currentRole.value === "rental_company",
 );
+const loading = computed(() => [inventory, rentals, profiles].some((store) => store?.loading.value));
+const error = computed(() => inventory?.error.value || rentals?.error.value || profiles?.error.value || subscriptions?.subscriptionError.value);
 onMounted(() => {
-  profiles.loadProfileByUserId(iam.currentUserId.value);
+  const userId = iam?.currentUserId.value;
+  if (!userId) return;
+  profiles?.loadProfileByUserId(userId);
   if (rentalCompany.value) {
-    subscriptions.loadCurrentSubscription(iam.currentUserId.value);
-    inventory.loadEquipmentByUserId(iam.currentUserId.value);
-    rentals.loadRentalRequestsForCompany(iam.currentUserId.value);
+    subscriptions?.loadCurrentSubscription(userId);
+    inventory?.loadEquipmentByUserId(userId);
+    rentals?.loadRentalRequestsForCompany(userId);
   } else {
-    inventory.loadMarketplaceEquipment();
-    rentals.loadRentalRequestsForConstructionCompany(iam.currentUserId.value);
+    inventory?.loadMarketplaceEquipment();
+    rentals?.loadRentalRequestsForConstructionCompany(userId);
   }
 });
 </script>
@@ -39,29 +45,23 @@ onMounted(() => {
   </h1>
   <p>
     {{ t("dashboard.welcome") }}
-    {{ profiles.profile.value?.companyName || iam.currentEmail.value }}
+    {{ profiles?.profile.value?.companyName || iam?.currentEmail.value }}
   </p>
   <Feedback
-    :loading="
-      inventory.loading.value || rentals.loading.value || profiles.loading.value
-    "
-    :error="
-      inventory.error.value ||
-      rentals.error.value ||
-      profiles.error.value ||
-      subscriptions.subscriptionError.value
-    "
+    :loading="loading"
+    :error="error"
   />
+  <p v-if="route.query.access === 'unavailable'" role="alert">{{ t('dashboard.access-unavailable') }}</p>
   <div class="stats">
-    <article class="card">
+    <article v-if="inventory" class="card">
       <span>{{ t("navigation.equipment") }}</span
       ><strong>{{ inventory.equipmentCount.value }}</strong>
     </article>
-    <article class="card">
+    <article v-if="rentals" class="card">
       <span>{{ t("rentals.requests.summary.pending") }}</span
       ><strong>{{ rentals.pendingRequestCount.value }}</strong>
     </article>
-    <article class="card">
+    <article v-if="rentals" class="card">
       <span>{{ t("rentals.requests.summary.approved") }}</span
       ><strong>{{ rentals.approvedRequestCount.value }}</strong>
     </article>
@@ -69,21 +69,21 @@ onMounted(() => {
   <section class="card">
     <h2>{{ t("navigation.dashboard") }}</h2>
     <div class="actions" v-if="rentalCompany">
-      <RouterLink class="button" to="/subscriptions/plans">{{
+      <RouterLink v-if="subscriptions" class="button" to="/subscriptions/plans">{{
           t("navigation.plan-subscription")
         }}</RouterLink
-      ><RouterLink class="button secondary" to="/inventory/equipment">{{
+      ><RouterLink v-if="inventory" class="button secondary" to="/inventory/equipment">{{
         t("navigation.equipment")
       }}</RouterLink
-    ><RouterLink class="button secondary" to="/rentals/requests">{{
+    ><RouterLink v-if="rentals" class="button secondary" to="/rentals/requests">{{
         t("navigation.rental-requests")
       }}</RouterLink>
     </div>
     <div class="actions" v-else>
-      <RouterLink class="button" to="/inventory/search">{{
+      <RouterLink v-if="inventory" class="button" to="/inventory/search">{{
           t("navigation.search-equipment")
         }}</RouterLink
-      ><RouterLink class="button secondary" to="/rentals/my-requests">{{
+      ><RouterLink v-if="rentals" class="button secondary" to="/rentals/my-requests">{{
         t("navigation.my-requests")
       }}</RouterLink>
     </div>

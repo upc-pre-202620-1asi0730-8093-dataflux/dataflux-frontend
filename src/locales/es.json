@@ -11,7 +11,8 @@
     "search-equipment": "Buscar maquinaria",
     "rental-requests": "Solicitudes de alquiler",
     "rentals": "Alquileres",
-    "my-requests": "Mis solicitudes"
+    "my-requests": "Mis solicitudes",
+    "incidents": "Incidencias"
   },
   "footer": {
     "rights": "Todos los derechos reservados.",
@@ -75,7 +76,8 @@
     "rental-company": "Empresa de alquiler",
     "construction-company": "Empresa constructora",
     "welcome": "Bienvenido,",
-    "sign-out": "Cerrar sesión"
+    "sign-out": "Cerrar sesión",
+    "access-unavailable": "No se pudo verificar el acceso. Inténtalo de nuevo cuando la API esté disponible."
   },
   "sign-up": {
     "workspace-badge": "Crea tu espacio de trabajo",
