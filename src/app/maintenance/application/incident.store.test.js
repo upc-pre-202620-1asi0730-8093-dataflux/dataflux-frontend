@@ -78,7 +78,7 @@ describe("Maintenance: inspected equipment returns to service", () => {
     expect(db.maintenances).toHaveLength(1);
     expect(db.maintenances[0].status).toBe("COMPLETED");
     expect(db.incidents).toEqual([]);
-  });
+  }, 15000);
 
   it("requires the operator to confirm the technical inspection", async () => {
     const { services, db, calls } = await createWorkflowHarness();

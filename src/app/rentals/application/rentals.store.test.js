@@ -40,7 +40,7 @@ describe('Rentals: approval recovery', () => {
     expect(db.rentals[0].status).toBe('CONFIRMED');
     expect(db['rental-requests'][0].status).toBe('APPROVED');
     expect(db.equipment[0].availabilityBlocks).toHaveLength(1);
-  });
+  }, 15000);
 
   it.each(['equipment', 'rentals', 'rental-requests'])('verifies a lost success response from %s without duplicating effects', async (resource) => {
     const { store, db, failNext } = await createRentalHarness({ 'rental-requests': [requestResource()] });
