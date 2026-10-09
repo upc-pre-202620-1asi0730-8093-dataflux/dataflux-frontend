@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useServices, clearSessionData } from './app.services.js';
 import LanguageSwitcher from './shared/presentation/components/language-switcher/LanguageSwitcher.vue';
-const { iam, profiles } = useServices();
+const { iam, profiles, subscriptions } = useServices();
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
@@ -18,6 +18,8 @@ watch(
 );
 const navigation = computed(() => {
   const links = [['/dashboard', 'dashboard']];
+  if (subscriptions && iam?.currentRole.value === 'rental_company')
+    links.push(['/subscriptions/plans', 'plan-subscription']);
   if (iam && profiles) links.push(['/profiles/profile', 'profile']);
   return links;
 });
