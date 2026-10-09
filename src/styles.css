@@ -14,6 +14,34 @@
 * {
   box-sizing: border-box;
 }
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  transform: translateY(-180%);
+  padding: 10px 16px;
+  color: var(--dark);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+.app-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+.terms-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.terms-heading {
+  justify-content: space-between;
+}
 body {
   margin: 0;
 }
@@ -92,6 +120,14 @@ select:focus,
 textarea:focus {
   outline: 2px solid #e7782050;
   border-color: var(--brand);
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--dark);
+  outline-offset: 3px;
 }
 label {
   display: flex;
