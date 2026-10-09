@@ -6,6 +6,7 @@ export function date(value) {
 export function localDate(value, end = false) {
   return new Date(`${value}T${end ? '23:59:59.999' : '00:00:00'}`);
 }
-export function money(amount, currency = 'PEN') {
-  return new Intl.NumberFormat('es-PE', { style: 'currency', currency }).format(amount);
+export function money(amount, currency = 'PEN', locale = i18n.global.locale.value) {
+  return new Intl.NumberFormat(locale.replace('_', '-'), { style: 'currency', currency }).format(amount);
 }
+import { i18n } from '../../../i18n.js';
