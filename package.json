@@ -1,0 +1,43 @@
+{
+  "name": "rentbuild-webapp",
+  "version": "1.0.0",
+  "description": "RentBuild — Vue and JavaScript web application",
+  "author": "DataFlux",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "dev:mock": "concurrently --kill-others --names api,vue \"npm run api\" \"npm run dev\"",
+    "start": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "api": "node server/index.cjs",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "format": "prettier --write src scripts *.js *.json *.md server/index.cjs"
+  },
+  "dependencies": {
+    "@primeuix/themes": "^1.2.5",
+    "axios": "^1.20.0",
+    "pinia": "^4.0.3",
+    "primeicons": "^8.0.2",
+    "primevue": "^4.5.5",
+    "rxjs": "~7.8.0",
+    "vue": "^3.5.0",
+    "vue-i18n": "^11.1.0",
+    "vue-router": "^4.6.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "concurrently": "^9.2.5",
+    "json-server": "^0.17.4",
+    "prettier": "^3.8.1",
+    "vite": "^7.1.0",
+    "vitest": "^5.0.3"
+  }
+}

@@ -1,0 +1,47 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+
+# Node
+/node_modules
+/.test-runtime
+/.migration
+/test-results
+/playwright-report
+.env.local
+.env.*.local
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/
+.history/*
+
+# Miscellaneous
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+__screenshots__/
+
+# System files
+.DS_Store
+Thumbs.db
+
+.env
+.env.*
+
+.test-runtime/
+test-results/
+playwright-report/
