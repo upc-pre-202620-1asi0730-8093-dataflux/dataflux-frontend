@@ -1,3 +1,5 @@
+import { defineStore } from "pinia";
+import { registerStore, exposeStore } from "../../shared/infrastructure/services.js";
 import { resolve, sessionEnded } from '../../shared/infrastructure/services.js';
 import { shallowRef, shallowReadonly, computed } from 'vue';
 import { takeUntil } from 'rxjs';
@@ -308,3 +310,6 @@ export class InventoryStore {
         return fallback;
     }
 }
+
+export const useInventoryStore = defineStore("inventory", () => exposeStore(new InventoryStore()));
+registerStore(InventoryStore, useInventoryStore);

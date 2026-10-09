@@ -31,7 +31,7 @@ const period = shallowRef(null);
 let version = 0;
 let subscription;
 const construction = computed(
-    () => iam.currentRole.value === "construction_company",
+  () => iam.currentRole.value === "construction_company",
 );
 function invalidate() {
   ++version;
@@ -42,20 +42,20 @@ function invalidate() {
   error.value = null;
 }
 watch(
-    () => [form.startDate, form.endDate],
-    () => {
-      invalidate();
-      requests.clearCreationState();
-    },
+  () => [form.startDate, form.endDate],
+  () => {
+    invalidate();
+    requests.clearCreationState();
+  },
 );
 watch(
-    () => requests.error.value,
-    (value) => {
-      if (value) {
-        invalidate();
-        store.loadEquipmentById(id);
-      }
-    },
+  () => requests.error.value,
+  (value) => {
+    if (value) {
+      invalidate();
+      store.loadEquipmentById(id);
+    }
+  },
 );
 function check() {
   invalidate();
@@ -88,18 +88,18 @@ function check() {
 }
 function request() {
   if (
-      !construction.value ||
-      !available.value ||
-      !period.value ||
-      !equipment.value ||
-      requests.loading.value
+    !construction.value ||
+    !available.value ||
+    !period.value ||
+    !equipment.value ||
+    requests.loading.value
   )
     return;
   requests.submitRentalRequest(
-      id,
-      iam.currentUserId.value,
-      equipment.value.userId,
-      period.value,
+    id,
+    iam.currentUserId.value,
+    equipment.value.userId,
+    period.value,
   );
   available.value = null;
   period.value = null;
@@ -122,7 +122,7 @@ onUnmounted(() => {
 </script>
 <template>
   <RouterLink :to="construction ? '/inventory/search' : '/inventory/equipment'"
-  >← {{ t("equipment.detail.back") }}</RouterLink
+    >← {{ t("equipment.detail.back") }}</RouterLink
   ><Feedback
     :loading="store.loading.value || checking || requests.loading.value"
     :error="error || store.error.value || requests.error.value"
@@ -131,15 +131,15 @@ onUnmounted(() => {
         ? t('equipment.detail.request-created')
         : false
     "
-/>
+  />
   <p v-if="requests.subscriptionRequired.value" class="notice error">
     {{ t("subscriptions.plans.no-current-plan") }}
   </p>
   <template v-if="equipment"
-  ><div class="page-heading">
-    <h1>{{ equipment.name }}</h1>
-    <AvailabilityBadge :equipment="equipment" />
-  </div>
+    ><div class="page-heading">
+      <h1>{{ equipment.name }}</h1>
+      <AvailabilityBadge :equipment="equipment" />
+    </div>
     <section class="card">
       <h2>{{ t("equipment.detail.information") }}</h2>
       <p>{{ equipment.description }}</p>
@@ -151,9 +151,20 @@ onUnmounted(() => {
         <dt>{{ t("equipment.location") }}</dt>
         <dd>{{ equipment.location }}</dd>
         <dt>{{ t("equipment.daily-rate") }}</dt>
-        <dd>{{ money(equipment.rentalRate.dailyRate) }}</dd>
+        <dd>
+          {{
+            money(equipment.rentalRate.dailyRate, equipment.rentalRate.currency)
+          }}
+        </dd>
         <dt>{{ t("equipment.weekly-rate") }}</dt>
-        <dd>{{ money(equipment.rentalRate.weeklyRate) }}</dd>
+        <dd>
+          {{
+            money(
+              equipment.rentalRate.weeklyRate,
+              equipment.rentalRate.currency,
+            )
+          }}
+        </dd>
       </dl>
     </section>
     <section class="card">
@@ -162,41 +173,42 @@ onUnmounted(() => {
       <form @submit.prevent="check">
         <div class="form-grid">
           <label
-          >{{ t("equipment.detail.start-date")
+            >{{ t("equipment.detail.start-date")
             }}<input v-model="form.startDate" type="date" required /></label
           ><label
-        >{{ t("equipment.detail.end-date")
-          }}<input
+            >{{ t("equipment.detail.end-date")
+            }}<input
               v-model="form.endDate"
               type="date"
               :min="form.startDate"
               required
           /></label>
         </div>
-        <button :disabled="checking || requests.loading.value">
+        <pv-button type="submit" :disabled="checking || requests.loading.value">
           {{ t("equipment.detail.check-availability") }}
-        </button>
+        </pv-button>
       </form>
       <p
-          v-if="available !== null"
-          class="notice"
-          :class="available ? 'success' : 'error'"
+        v-if="available !== null"
+        class="notice"
+        :class="available ? 'success' : 'error'"
       >
         {{
           t(
-              available
-                  ? "equipment.detail.available-for-period"
-                  : "equipment.detail.not-available-for-period",
+            available
+              ? "equipment.detail.available-for-period"
+              : "equipment.detail.not-available-for-period",
           )
         }}
       </p>
-      <button
-          v-if="construction"
-          :disabled="!available || checking || requests.loading.value"
-          @click="request"
+      <pv-button
+        type="button"
+        v-if="construction"
+        :disabled="!available || checking || requests.loading.value"
+        @click="request"
       >
         {{ t("equipment.detail.request-rental") }}
-      </button>
+      </pv-button>
     </section></template
   >
   <p v-else-if="!store.loading.value">{{ t("equipment.detail.not-found") }}</p>

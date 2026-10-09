@@ -5,12 +5,40 @@
   "navigation": {
     "dashboard": "Dashboard",
     "profile": "Profile",
-    "plan-subscription": "Plan & Subscription"
+    "plan-subscription": "Plan & Subscription",
+    "maintenance": "Maintenance",
+    "equipment": "Equipment",
+    "search-equipment": "Search equipment",
+    "rental-requests": "Rental Requests",
+    "rentals": "Rentals",
+    "my-requests": "My Requests"
   },
   "footer": {
     "rights": "All rights reserved.",
     "powered-by": "Powered by",
-    "and": "and"
+    "and": "and",
+    "terms": "Demo terms"
+  },
+  "terms": {
+    "title": "Terms of the academic demonstration",
+    "introduction": "RentBuild is a DataFlux university project for TB1. This prototype illustrates a proposal for equipment rental management.",
+    "scope": {
+      "title": "Demonstration scope",
+      "description": "The screens and plans illustrate the proposal. This demonstration does not execute real rentals, reservations, payments or contracts. Selecting a plan does not charge a payment or start automatic billing. The registration segment selects an organization type; it does not grant permissions by itself."
+    },
+    "data": {
+      "title": "Use fictional data",
+      "description": "Use fictional accounts and records with the test API. Do not enter real personal or financial information or reuse passwords from other services. Test records can be reset and are not a production record of business activity."
+    },
+    "session": {
+      "title": "Browser preferences and demo session",
+      "description": "The application stores the selected language and demo session in your browser. Signing out removes the session; the language preference remains. Clearing browser storage removes these local values. Registration and profile forms send their data to the configured test API."
+    },
+    "availability": {
+      "title": "Prototype limitations",
+      "description": "The prototype is for academic evaluation. Production availability, authorization and business transactions have not been established. These demonstration terms do not replace the terms of a future commercial service."
+    },
+    "return": "Return to the application"
   },
   "iam": {
     "auth": {
@@ -200,6 +228,370 @@
         "fallback": "The demo request could not be completed. Try again."
       },
       "retry": "Retry loading plans"
+    }
+  },
+  "equipment": {
+    "list-title": "Equipment",
+    "new-title": "Register equipment",
+    "edit-title": "Edit equipment",
+    "new": "Register equipment",
+    "id": "ID",
+    "code": "Code",
+    "name": "Name",
+    "description": "Description",
+    "category": "Category",
+    "location": "Location",
+    "daily-rate": "Daily rate",
+    "weekly-rate": "Weekly rate",
+    "status": "Operational status",
+    "availability": "Availability",
+    "actions": "Actions",
+    "edit": "Edit equipment",
+    "create": "Register equipment",
+    "update": "Update equipment",
+    "empty": "No equipment has been registered yet.",
+    "status-values": {
+      "available": "Operational",
+      "rented": "On rent",
+      "maintenance": "Maintenance"
+    },
+    "availability-values": {
+      "available": "Available",
+      "reserved": "Reserved",
+      "rented": "On rent",
+      "maintenance": "Maintenance"
+    },
+    "error": {
+      "code-required": "Code is required.",
+      "name-required": "Name is required.",
+      "description-required": "Description is required.",
+      "category-required": "Category is required.",
+      "location-required": "Location is required.",
+      "daily-rate-invalid": "Enter a daily rate greater than zero.",
+      "weekly-rate-invalid": "Enter a weekly rate greater than zero.",
+      "edit-load-failed": "Could not load the equipment for editing. Confirm that it belongs to your company."
+    },
+    "search": {
+      "title": "Search equipment",
+      "subtitle": "Find equipment that matches your project needs.",
+      "query": "Search",
+      "query-placeholder": "Name, code or characteristics",
+      "all-categories": "All categories",
+      "location-placeholder": "Search by location",
+      "all-availability": "All availability",
+      "apply": "Search",
+      "clear": "Clear filters",
+      "no-results": "No equipment matches the selected filters."
+    },
+    "detail": {
+      "view": "View details",
+      "back": "Back to search",
+      "information": "Equipment information",
+      "rental-conditions": "Rental conditions",
+      "condition": "Status and availability",
+      "not-found": "The requested equipment could not be found.",
+      "period-availability": "Availability for a period",
+      "period-description": "Select the dates when you need the equipment to check its availability.",
+      "start-date": "Start date",
+      "end-date": "End date",
+      "date-required": "The date is required.",
+      "check-availability": "Check availability",
+      "available-for-period": "The equipment is available during the selected period.",
+      "not-available-for-period": "The equipment is not available during the selected period.",
+      "invalid-period": "The start date must be before or equal to the end date.",
+      "request-rental": "Request rental",
+      "requesting-rental": "Submitting request...",
+      "request-created": "Rental request created successfully.",
+      "request-status": "Status",
+      "request-errors": {
+        "status-changed": "The rental request could not be submitted because the equipment is no longer available. Check its availability again.",
+        "blocking-incident": "You cannot request this equipment because it has an unresolved blocking maintenance incident.",
+        "reserved": "The equipment is already reserved for the selected period.",
+        "rental-overlap": "The equipment has a confirmed or active rental that overlaps the selected dates.",
+        "company-mismatch": "The equipment does not belong to the selected rental company.",
+        "not-found": "The requested equipment could not be found.",
+        "reservations-check-failed": "The equipment reservations could not be verified. Please try again.",
+        "incidents-check-failed": "The maintenance restrictions could not be verified. Please try again.",
+        "invalid-request": "The equipment or rental dates are invalid.",
+        "availability-check-failed": "The current availability could not be checked. Please try again.",
+        "generic": "The rental request could not be submitted. Please try again.",
+        "requester-role": "Only construction companies can submit rental requests."
+      },
+      "request-status-values": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "availability-checking": "Checking current availability...",
+      "availability-check-failed": "Could not check current availability. Please try again."
+    },
+    "currency": "Currency"
+  },
+  "rentals": {
+    "requests": {
+      "section": "Rental operations",
+      "title": "Rental Requests",
+      "subtitle": "Review the rental requests received by your company and track their current status.",
+      "summary": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "list-label": "Requests",
+      "list-title": "Received requests",
+      "filters": {
+        "status": "Status",
+        "all-statuses": "All statuses",
+        "date": "Request date",
+        "clear": "Clear filters"
+      },
+      "requester": "Requester",
+      "equipment": "Equipment",
+      "period": "Rental period",
+      "requested-at": "Requested on",
+      "status-label": "Status",
+      "actions": "Actions",
+      "approve": "Approve",
+      "reject": "Reject",
+      "updating": "Updating...",
+      "resolved": "Resolved",
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "load-error": "The rental requests could not be loaded.",
+      "operation-error": "The rental request operation could not be completed.",
+      "empty-title": "No rental requests yet",
+      "empty-description": "Your company has not received any rental requests yet.",
+      "no-filter-results": "No matching requests",
+      "no-filter-results-description": "No rental requests match the selected filters."
+    },
+    "active": {
+      "section": "Rental operations",
+      "title": "Rentals",
+      "subtitle": "Track confirmed and active rentals, register equipment deliveries and returns, and monitor upcoming return dates.",
+      "summary-confirmed": "Awaiting delivery",
+      "summary": "Active rentals",
+      "summary-due-soon": "Returns due soon",
+      "overdue-summary": "{count} overdue",
+      "list-label": "Rentals",
+      "list-title": "Rental operations",
+      "equipment": "Equipment",
+      "customer": "Customer",
+      "start-date": "Start date",
+      "return-date": "Return date",
+      "period": "Rental period",
+      "status-label": "Status",
+      "actions": "Actions",
+      "register-delivery": "Register delivery",
+      "register-return": "Register return",
+      "updating": "Updating...",
+      "date-required": "The date is required.",
+      "notes": "Notes",
+      "cancel": "Cancel",
+      "status": {
+        "confirmed": "Confirmed",
+        "active": "Active",
+        "completed": "Completed"
+      },
+      "return-indicator": {
+        "awaiting-delivery": "Awaiting delivery",
+        "scheduled": "Scheduled",
+        "due-soon": "Due soon",
+        "overdue": "Overdue"
+      },
+      "delivery": {
+        "section": "Rental delivery",
+        "title": "Register delivery",
+        "subtitle": "Confirm that the equipment was delivered to the customer and start the active rental.",
+        "date": "Delivery date",
+        "notes-placeholder": "Add relevant delivery observations",
+        "confirm": "Confirm delivery",
+        "success": "The delivery was registered successfully and the rental is now active."
+      },
+      "return": {
+        "section": "Equipment return",
+        "title": "Register return",
+        "subtitle": "Record the equipment return and indicate whether maintenance is required.",
+        "date": "Return date",
+        "notes-placeholder": "Add return condition or relevant observations",
+        "maintenance-required": "The equipment requires maintenance",
+        "maintenance-help": "Select this option when the returned equipment must remain unavailable for technical attention.",
+        "confirm": "Confirm return",
+        "success": "The return was registered successfully and the rental was completed."
+      },
+      "load-error": "The rentals could not be loaded.",
+      "operation-error": "The delivery or return operation could not be completed.",
+      "empty-title": "No rental operations",
+      "empty-description": "Your company does not currently have confirmed or active rentals."
+    },
+    "my-requests": {
+      "section": "Rental operations",
+      "title": "My Requests",
+      "subtitle": "Review the rental requests submitted by your company and check their current status.",
+      "summary": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "list-label": "Requests",
+      "list-title": "Submitted requests",
+      "equipment": "Equipment",
+      "period": "Requested period",
+      "requested-at": "Requested on",
+      "status-label": "Status",
+      "actions": "Actions",
+      "view-detail": "View detail",
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "load-error": "Your rental requests could not be loaded.",
+      "empty-title": "No rental requests yet",
+      "empty-description": "Your company has not submitted any rental requests yet.",
+      "detail": {
+        "back": "Back to My Requests",
+        "section": "Rental request",
+        "title": "Request",
+        "subtitle": "Review the current status and information for this rental request.",
+        "not-found-title": "Rental request not found",
+        "not-found-description": "The requested rental request does not exist or is not available for your company.",
+        "load-error": "The rental request could not be loaded."
+      }
+    }
+  },
+  "maintenance": {
+    "incidents": {
+      "list": {
+        "section": "Incident management",
+        "title": "Equipment incidents",
+        "subtitle": "Register and review problems reported with your company equipment.",
+        "view-maintenance": "View maintenance",
+        "register": "Report incident",
+        "total": "Reported incidents",
+        "affected-equipment": "Affected equipment",
+        "last-report": "Latest report",
+        "success": "Incident registered successfully.",
+        "history": "Incident history",
+        "records": "Reported incidents",
+        "load-error": "Incident records could not be loaded.",
+        "empty-title": "No incidents reported yet",
+        "empty-description": "Report an incident when equipment experiences a problem.",
+        "no-equipment": "Register equipment before reporting incidents.",
+        "add-equipment": "Add equipment",
+        "equipment": "Equipment",
+        "date": "Report date",
+        "description": "Problem description",
+        "status": "Status",
+        "open": "Open",
+        "resolved": "Resolved",
+        "rental-restriction": "Rental restriction",
+        "blocked": "Blocking",
+        "not-blocked": "No withdrawal",
+        "actions": "Actions",
+        "resolve": "Resolve incident",
+        "resolve-warning": "Confirm the issue has been addressed. Resolving does not make the equipment available.",
+        "cancel-resolve": "Cancel",
+        "confirm-resolve": "Confirm resolution",
+        "resolving": "Resolving...",
+        "resolve-success": "Incident resolved. Equipment under maintenance remains unavailable until manually reactivated.",
+        "require-restriction": "Mark as blocking",
+        "confirm-restriction": "Confirm withdrawal",
+        "restricting": "Updating...",
+        "restriction-warning": "Confirm to mark this incident as blocking and temporarily withdraw the equipment from new rentals. This does not cancel existing rentals or make the equipment available again.",
+        "restriction-success": "The incident is now blocking. The equipment remains under maintenance and cannot receive new rentals.",
+        "resolve-short": "Resolve",
+        "no-actions": "No actions",
+        "reactivation-title": "Equipment reactivation",
+        "reactivation-description": "Reactivate equipment under maintenance once all blocking incidents are resolved and a technical inspection is confirmed.",
+        "reactivate": "Reactivate equipment",
+        "reactivate-warning": "The equipment will become available for new requests. Check that no active rentals or other maintenance reasons remain.",
+        "inspection-confirmed": "I confirm the equipment was inspected, is fit to operate, and has no active rentals.",
+        "confirm-reactivation": "Confirm reactivation",
+        "reactivating": "Reactivating...",
+        "reactivation-success": "Equipment reactivated and available again. Incident history was preserved."
+      },
+      "form": {
+        "section": "Incident reporting",
+        "title": "Report incident",
+        "subtitle": "Select the affected equipment and describe the problem.",
+        "equipment": "Equipment",
+        "equipment-required": "Select equipment.",
+        "description": "Problem description",
+        "description-placeholder": "Describe the failure, damage or problem affecting the equipment.",
+        "description-required": "Enter a valid problem description.",
+        "cancel": "Cancel",
+        "saving": "Saving...",
+        "save": "Save incident",
+        "block-rental": "Temporarily withdraw from rental",
+        "block-rental-hint": "Enable this when equipment cannot operate safely. It will be marked as under maintenance and unavailable for new rentals. Currently rented equipment requires separate handling."
+      }
+    },
+    "schedule": {
+      "list": {
+        "subtitle": "Register completed maintenance and schedule upcoming equipment maintenance.",
+        "button": "Schedule maintenance",
+        "pending": "Pending",
+        "success": "Maintenance scheduled successfully.",
+        "empty-description": "Register completed maintenance or schedule an upcoming intervention.",
+        "filter-label": "Filter maintenance records",
+        "filter-all": "All",
+        "filter-pending": "Pending",
+        "no-pending": "There are no pending scheduled maintenance records."
+      },
+      "form": {
+        "section": "Maintenance scheduling",
+        "title": "Schedule maintenance",
+        "subtitle": "Select equipment and a date on or after today.",
+        "date": "Scheduled date",
+        "date-invalid": "The scheduled date cannot be in the past.",
+        "saving": "Scheduling...",
+        "save": "Save schedule"
+      }
+    },
+    "list": {
+      "section": "Maintenance management",
+      "title": "Maintenance",
+      "subtitle": "Register completed maintenance activities and track equipment history.",
+      "register": "Register maintenance",
+      "total": "Total records",
+      "completed": "Completed",
+      "equipment-with-records": "Equipment with maintenance",
+      "success": "Maintenance registered successfully.",
+      "history": "Maintenance history",
+      "records": "Maintenance records",
+      "load-error": "Maintenance records could not be loaded.",
+      "empty-title": "No maintenance records yet",
+      "empty-description": "Register the first completed maintenance activity for your equipment.",
+      "no-equipment": "Register equipment before adding maintenance records.",
+      "add-equipment": "Add equipment",
+      "equipment": "Equipment",
+      "date": "Date",
+      "type": "Type",
+      "status": "Status"
+    },
+    "form": {
+      "section": "Maintenance record",
+      "title": "Register maintenance",
+      "subtitle": "Record maintenance work already performed on equipment.",
+      "equipment": "Equipment",
+      "equipment-required": "Select equipment.",
+      "date": "Maintenance date",
+      "date-required": "Enter the maintenance date.",
+      "date-invalid": "The maintenance date cannot be in the future.",
+      "type": "Maintenance type",
+      "type-placeholder": "For example, preventive maintenance",
+      "type-required": "Enter the maintenance type.",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "save": "Save maintenance"
+    },
+    "status": {
+      "scheduled": "Scheduled",
+      "in_progress": "In progress",
+      "completed": "Completed"
     }
   }
 }

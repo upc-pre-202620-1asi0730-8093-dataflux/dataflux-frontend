@@ -1,10 +1,10 @@
-import { FetchClient, QueryParams, resolve } from '../../shared/infrastructure/services.js';
+import { HttpClient, QueryParams, resolve } from '../../shared/infrastructure/services.js';
 import { catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.js';
 import { ErrorHandlingEnabledBaseType } from '../../shared/infrastructure/error-handling-enabled-base-type.js';
 
 export class RentalsRentalActivityAclAdapter extends ErrorHandlingEnabledBaseType {
-  #http = resolve(FetchClient);
+  #http = resolve(HttpClient);
   #endpointUrl = `${environment.platformProviderApiBaseUrl}${environment.platformProviderRentalsEndpointPath}`;
   hasActiveRental(equipmentId) {
     if (!Number.isInteger(equipmentId) || equipmentId <= 0) {

@@ -1,6 +1,6 @@
 # RentBuild — Vue y JavaScript
 
-Base común de la aplicación. Cada rama feature parte de develop y conserva estos archivos principales junto con su contexto. Los demás contextos se integrarán desde sus ramas cuando sus responsables los preparen.
+Aplicación integrada de RentBuild con IAM, Profiles, Inventory, Rentals, Subscriptions, Maintenance y Shared. Las ramas de trabajo se sincronizan con develop para compartir la misma base funcional.
 
 ## Ejecutar en WebStorm
 
@@ -47,19 +47,21 @@ Cada contexto organiza domain, infrastructure, application y presentation. Las p
 
 ```powershell
 npm test
+npx vitest run scripts/domain-http.test.js
+npm run test:e2e
 npm run build
 npm run preview
 ```
 
-Las pruebas actuales cubren sesión de ambos roles y carga y guardado de perfiles. La Fake API es para desarrollo y no reemplaza la autenticación y autorización de un backend real.
+Las pruebas cubren sesión de ambos roles, perfiles, suscripciones, preferencias de idioma, validación monetaria y transporte HTTP. Las pruebas de navegador usan una copia aislada de los datos y comprueban registro, ingreso, edición del perfil, planes y maquinaria. La Fake API es para desarrollo y no reemplaza la autenticación y autorización de un backend real.
 
 Para otra API, define VITE_API_BASE_URL en .env.local y VITE_USE_FAKE_API=false. Los datos de ejemplo son locales.
 
 ## Integración del equipo
 
-Los PR van a develop. Conserva main para la versión integrada y probada. Al añadir un contexto, expón sus servicios en src/app/<contexto>/application/<contexto>.module.js y sus rutas en src/app/<contexto>/presentation/<contexto>-routes.js. La base los descubre mediante import.meta.glob de Vite, sin importar carpetas que aún no están integradas. Añade únicamente las traducciones y endpoints que requiera ese contexto.
+Los PR van a develop. Conserva main para la versión integrada y probada. La composición de servicios y adaptadores ACL está en src/app/app.services.js; las rutas y los controles de acceso están en src/app/app.routes.js. Al ampliar un contexto, conecta sus servicios, rutas, traducciones y endpoints en esos archivos.
 
-La rama feature/iam contiene la base y el contexto IAM; feature/profiles contiene la misma base y Profiles. Sus PR hacia develop añaden únicamente su contexto. Profiles puede compilar sin IAM, pero para acceder al perfil con una sesión real debe integrarse también IAM. La base sola arranca mostrando el panel principal.
+Todas las ramas feature contienen la base integrada. Cada integrante modifica su contexto y su PR muestra solamente los cambios posteriores a la última sincronización con develop. Los commits nuevos deben usar Conventional Commits en inglés, por ejemplo `fix(iam): prevent stale session responses` o `feat(profiles): add company contact validation`.
 
 Antes de continuar, guarda tus cambios y actualiza tu rama con git fetch origin y git merge origin/develop. No copies ni vuelvas a añadir toda la base para generar tu commit.
 

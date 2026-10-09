@@ -1,4 +1,5 @@
 import { vi } from "vitest";
+import axios from "axios";
 
 // Exercise the real store, API, endpoints and assemblers with only local HTTP data.
 export async function createSubscriptionsHarness(resources = {}) {
@@ -17,16 +18,17 @@ export async function createSubscriptionsHarness(resources = {}) {
   const calls = [];
   const heldResponses = [];
   const respond = (status, data) =>
-    new Response(JSON.stringify(data), { status });
+    ({data, status});
 
-  vi.stubGlobal("fetch", async (rawUrl, options = {}) => {
+  vi.spyOn(axios, "request").mockImplementation(async (options) => {
+    const rawUrl = options.url;
     const url = new URL(rawUrl);
     const [resource, rawId] = url.pathname
       .replace(/^\/api\/v1\//, "")
       .split("/");
     const id = rawId === undefined ? null : Number(rawId);
     const method = options.method ?? "GET";
-    const body = options.body ? JSON.parse(options.body) : undefined;
+    const body = options.data;
     calls.push({ method, resource, id, body });
     const rows = db[resource];
     if (!Array.isArray(rows))
@@ -78,7 +80,7 @@ export async function createSubscriptionsHarness(resources = {}) {
       started,
       async release(replacement) {
         unlock(replacement);
-        // Let the real FetchClient consume the released response before assertions.
+        // Let the real HttpClient consume the released response before assertions.
         await new Promise((resolve) => setTimeout(resolve, 0));
       },
     };

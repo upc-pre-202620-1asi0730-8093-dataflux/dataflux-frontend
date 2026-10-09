@@ -1,11 +1,11 @@
-import { FetchClient, resolve } from '../../shared/infrastructure/services.js';
+import { HttpClient, resolve } from '../../shared/infrastructure/services.js';
 import { catchError, map, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment.js';
 import { ErrorHandlingEnabledBaseType } from '../../shared/infrastructure/error-handling-enabled-base-type.js';
 import { MAINTENANCE_INCIDENT_RESTRICTION_PORT } from './maintenance-incident-restriction.port.js';
 
 export class InventoryEquipmentOperationAclAdapter extends ErrorHandlingEnabledBaseType {
-  #http = resolve(FetchClient);
+  #http = resolve(HttpClient);
   #incidentRestriction = resolve(MAINTENANCE_INCIDENT_RESTRICTION_PORT);
   #endpointUrl = `${environment.platformProviderApiBaseUrl}${environment.platformProviderEquipmentEndpointPath}`;
   reservePeriod(equipmentId, startDate, endDate) {

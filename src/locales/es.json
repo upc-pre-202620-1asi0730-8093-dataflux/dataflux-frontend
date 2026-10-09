@@ -5,12 +5,40 @@
   "navigation": {
     "dashboard": "Panel principal",
     "profile": "Perfil",
-    "plan-subscription": "Plan y suscripción"
+    "plan-subscription": "Plan y suscripción",
+    "maintenance": "Mantenimiento",
+    "equipment": "Maquinaria",
+    "search-equipment": "Buscar maquinaria",
+    "rental-requests": "Solicitudes de alquiler",
+    "rentals": "Alquileres",
+    "my-requests": "Mis solicitudes"
   },
   "footer": {
     "rights": "Todos los derechos reservados.",
     "powered-by": "Desarrollado con",
-    "and": "y"
+    "and": "y",
+    "terms": "Términos de la demo"
+  },
+  "terms": {
+    "title": "Términos de la demostración académica",
+    "introduction": "RentBuild es un proyecto universitario de DataFlux para TB1. Este prototipo ilustra una propuesta de gestión de alquiler de equipos.",
+    "scope": {
+      "title": "Alcance de la demostración",
+      "description": "Las pantallas y planes ilustran la propuesta. Esta demostración no ejecuta alquileres, reservas, pagos ni contratos reales. Elegir un plan no realiza un cobro ni inicia facturación automática. El segmento de registro selecciona un tipo de organización; por sí solo no concede permisos."
+    },
+    "data": {
+      "title": "Utiliza datos ficticios",
+      "description": "Utiliza cuentas y registros ficticios con la API de pruebas. No ingreses información personal o financiera real ni reutilices contraseñas de otros servicios. Los registros de prueba pueden reiniciarse y no constituyen un registro de producción de la actividad comercial."
+    },
+    "session": {
+      "title": "Preferencias del navegador y sesión de la demo",
+      "description": "La aplicación guarda el idioma elegido y la sesión de la demo en tu navegador. Cerrar sesión elimina la sesión; conserva la preferencia de idioma. Borrar el almacenamiento del navegador elimina estos valores locales. Los formularios de registro y perfil envían sus datos a la API de pruebas configurada."
+    },
+    "availability": {
+      "title": "Límites del prototipo",
+      "description": "El prototipo está destinado a la evaluación académica. No se han establecido garantías de disponibilidad, autorización ni transacciones comerciales en producción. Estos términos de demostración no reemplazan los de un futuro servicio comercial."
+    },
+    "return": "Volver a la aplicación"
   },
   "iam": {
     "auth": {
@@ -200,6 +228,370 @@
         "fallback": "No se pudo completar la solicitud de demo. Reintenta."
       },
       "retry": "Reintentar carga de planes"
+    }
+  },
+  "equipment": {
+    "list-title": "Maquinaria",
+    "new-title": "Registrar maquinaria",
+    "edit-title": "Editar maquinaria",
+    "new": "Registrar maquinaria",
+    "id": "ID",
+    "code": "Código",
+    "name": "Nombre",
+    "description": "Descripción",
+    "category": "Categoría",
+    "location": "Ubicación",
+    "daily-rate": "Tarifa diaria",
+    "weekly-rate": "Tarifa semanal",
+    "status": "Estado operativo",
+    "availability": "Disponibilidad",
+    "actions": "Acciones",
+    "edit": "Editar maquinaria",
+    "create": "Registrar maquinaria",
+    "update": "Actualizar maquinaria",
+    "empty": "Todavía no se ha registrado maquinaria.",
+    "status-values": {
+      "available": "Operativa",
+      "rented": "Alquilada",
+      "maintenance": "En mantenimiento"
+    },
+    "availability-values": {
+      "available": "Disponible",
+      "reserved": "Reservada",
+      "rented": "Alquilada",
+      "maintenance": "En mantenimiento"
+    },
+    "error": {
+      "code-required": "El código es obligatorio.",
+      "name-required": "El nombre es obligatorio.",
+      "description-required": "La descripción es obligatoria.",
+      "category-required": "La categoría es obligatoria.",
+      "location-required": "La ubicación es obligatoria.",
+      "daily-rate-invalid": "Ingresa una tarifa diaria mayor que cero.",
+      "weekly-rate-invalid": "Ingresa una tarifa semanal mayor que cero.",
+      "edit-load-failed": "No se pudo cargar la maquinaria para editarla. Comprueba que pertenece a tu empresa."
+    },
+    "search": {
+      "title": "Buscar maquinaria",
+      "subtitle": "Encuentra maquinaria que se adapte a las necesidades de tu proyecto.",
+      "query": "Buscar",
+      "query-placeholder": "Nombre, código o características",
+      "all-categories": "Todas las categorías",
+      "location-placeholder": "Buscar por ubicación",
+      "all-availability": "Todas las disponibilidades",
+      "apply": "Buscar",
+      "clear": "Limpiar filtros",
+      "no-results": "No se encontró maquinaria que coincida con los filtros seleccionados."
+    },
+    "detail": {
+      "view": "Ver detalles",
+      "back": "Volver a búsqueda",
+      "information": "Información del equipo",
+      "rental-conditions": "Condiciones de alquiler",
+      "condition": "Estado y disponibilidad",
+      "not-found": "No se encontró la maquinaria solicitada.",
+      "period-availability": "Disponibilidad para un periodo",
+      "period-description": "Selecciona las fechas en las que necesitas la maquinaria para comprobar su disponibilidad.",
+      "start-date": "Fecha de inicio",
+      "end-date": "Fecha de fin",
+      "date-required": "La fecha es obligatoria.",
+      "check-availability": "Consultar disponibilidad",
+      "available-for-period": "La maquinaria está disponible durante el periodo seleccionado.",
+      "not-available-for-period": "La maquinaria no está disponible durante el periodo seleccionado.",
+      "invalid-period": "La fecha de inicio debe ser anterior o igual a la fecha de fin.",
+      "request-rental": "Solicitar alquiler",
+      "requesting-rental": "Registrando solicitud...",
+      "request-created": "Solicitud de alquiler registrada correctamente.",
+      "request-status": "Estado",
+      "request-errors": {
+        "status-changed": "No se pudo registrar la solicitud porque la maquinaria ya no está disponible. Vuelve a consultar su disponibilidad.",
+        "blocking-incident": "No puedes solicitar esta maquinaria porque tiene una incidencia de mantenimiento bloqueante pendiente.",
+        "reserved": "La maquinaria ya está reservada para el periodo seleccionado.",
+        "rental-overlap": "La maquinaria tiene un alquiler confirmado o activo que se cruza con las fechas seleccionadas.",
+        "company-mismatch": "La maquinaria no pertenece a la empresa de alquiler indicada.",
+        "not-found": "No se encontró la maquinaria solicitada.",
+        "reservations-check-failed": "No se pudieron comprobar las reservas de esta maquinaria. Intenta nuevamente.",
+        "incidents-check-failed": "No se pudieron comprobar las restricciones de mantenimiento. Intenta nuevamente.",
+        "invalid-request": "Los datos de la maquinaria o del periodo de alquiler no son válidos.",
+        "availability-check-failed": "No se pudo verificar la disponibilidad actual. Intenta nuevamente.",
+        "generic": "No se pudo registrar la solicitud de alquiler. Intenta nuevamente.",
+        "requester-role": "Solo las empresas constructoras pueden enviar solicitudes de alquiler."
+      },
+      "request-status-values": {
+        "pending": "Pendiente",
+        "approved": "Aprobada",
+        "rejected": "Rechazada"
+      },
+      "availability-checking": "Consultando disponibilidad actualizada...",
+      "availability-check-failed": "No se pudo consultar la disponibilidad actual. Inténtalo nuevamente."
+    },
+    "currency": "Moneda"
+  },
+  "rentals": {
+    "requests": {
+      "section": "Operaciones de alquiler",
+      "title": "Solicitudes de alquiler",
+      "subtitle": "Revisa las solicitudes de alquiler recibidas por tu empresa y consulta su estado actual.",
+      "summary": {
+        "pending": "Pendientes",
+        "approved": "Aprobadas",
+        "rejected": "Rechazadas"
+      },
+      "list-label": "Solicitudes",
+      "list-title": "Solicitudes recibidas",
+      "filters": {
+        "status": "Estado",
+        "all-statuses": "Todos los estados",
+        "date": "Fecha de solicitud",
+        "clear": "Limpiar filtros"
+      },
+      "requester": "Solicitante",
+      "equipment": "Maquinaria",
+      "period": "Periodo de alquiler",
+      "requested-at": "Solicitada el",
+      "status-label": "Estado",
+      "actions": "Acciones",
+      "approve": "Aprobar",
+      "reject": "Rechazar",
+      "updating": "Actualizando...",
+      "resolved": "Resuelta",
+      "status": {
+        "pending": "Pendiente",
+        "approved": "Aprobada",
+        "rejected": "Rechazada"
+      },
+      "load-error": "No fue posible cargar las solicitudes de alquiler.",
+      "operation-error": "No fue posible completar la operación de la solicitud.",
+      "empty-title": "Aún no hay solicitudes de alquiler",
+      "empty-description": "Tu empresa todavía no ha recibido solicitudes de alquiler.",
+      "no-filter-results": "No hay solicitudes coincidentes",
+      "no-filter-results-description": "Ninguna solicitud de alquiler coincide con los filtros seleccionados."
+    },
+    "active": {
+      "section": "Operaciones de alquiler",
+      "title": "Alquileres",
+      "subtitle": "Supervisa los alquileres confirmados y activos, registra entregas y devoluciones de maquinaria y controla las próximas fechas de devolución.",
+      "summary-confirmed": "Pendientes de entrega",
+      "summary": "Alquileres activos",
+      "summary-due-soon": "Devoluciones próximas",
+      "overdue-summary": "{count} vencidos",
+      "list-label": "Alquileres",
+      "list-title": "Operaciones de alquiler",
+      "equipment": "Maquinaria",
+      "customer": "Cliente",
+      "start-date": "Fecha de inicio",
+      "return-date": "Fecha de devolución",
+      "period": "Periodo de alquiler",
+      "status-label": "Estado",
+      "actions": "Acciones",
+      "register-delivery": "Registrar entrega",
+      "register-return": "Registrar devolución",
+      "updating": "Actualizando...",
+      "date-required": "La fecha es obligatoria.",
+      "notes": "Observaciones",
+      "cancel": "Cancelar",
+      "status": {
+        "confirmed": "Confirmado",
+        "active": "Activo",
+        "completed": "Completado"
+      },
+      "return-indicator": {
+        "awaiting-delivery": "Pendiente de entrega",
+        "scheduled": "Programada",
+        "due-soon": "Próxima",
+        "overdue": "Vencida"
+      },
+      "delivery": {
+        "section": "Entrega del alquiler",
+        "title": "Registrar entrega",
+        "subtitle": "Confirma que la maquinaria fue entregada al cliente e inicia el alquiler activo.",
+        "date": "Fecha de entrega",
+        "notes-placeholder": "Agrega observaciones relevantes de la entrega",
+        "confirm": "Confirmar entrega",
+        "success": "La entrega se registró correctamente y el alquiler ahora está activo."
+      },
+      "return": {
+        "section": "Devolución de maquinaria",
+        "title": "Registrar devolución",
+        "subtitle": "Registra la devolución de la maquinaria e indica si requiere mantenimiento.",
+        "date": "Fecha de devolución",
+        "notes-placeholder": "Agrega el estado de devolución u observaciones relevantes",
+        "maintenance-required": "La maquinaria requiere mantenimiento",
+        "maintenance-help": "Selecciona esta opción cuando la maquinaria devuelta deba permanecer no disponible para atención técnica.",
+        "confirm": "Confirmar devolución",
+        "success": "La devolución se registró correctamente y el alquiler fue completado."
+      },
+      "load-error": "No fue posible cargar los alquileres.",
+      "operation-error": "No fue posible completar la operación de entrega o devolución.",
+      "empty-title": "No hay operaciones de alquiler",
+      "empty-description": "Tu empresa no tiene alquileres confirmados o activos en este momento."
+    },
+    "my-requests": {
+      "section": "Operaciones de alquiler",
+      "title": "Mis solicitudes",
+      "subtitle": "Revisa las solicitudes de alquiler realizadas por tu empresa y consulta su estado actual.",
+      "summary": {
+        "pending": "Pendientes",
+        "approved": "Aprobadas",
+        "rejected": "Rechazadas"
+      },
+      "list-label": "Solicitudes",
+      "list-title": "Solicitudes realizadas",
+      "equipment": "Maquinaria",
+      "period": "Periodo solicitado",
+      "requested-at": "Solicitada el",
+      "status-label": "Estado",
+      "actions": "Acciones",
+      "view-detail": "Ver detalle",
+      "status": {
+        "pending": "Pendiente",
+        "approved": "Aprobada",
+        "rejected": "Rechazada"
+      },
+      "load-error": "No fue posible cargar tus solicitudes de alquiler.",
+      "empty-title": "Aún no tienes solicitudes de alquiler",
+      "empty-description": "Tu empresa todavía no ha realizado solicitudes de alquiler.",
+      "detail": {
+        "back": "Volver a Mis solicitudes",
+        "section": "Solicitud de alquiler",
+        "title": "Solicitud",
+        "subtitle": "Consulta el estado actual y la información de esta solicitud de alquiler.",
+        "not-found-title": "Solicitud de alquiler no encontrada",
+        "not-found-description": "La solicitud indicada no existe o no está disponible para tu empresa.",
+        "load-error": "No fue posible cargar la solicitud de alquiler."
+      }
+    }
+  },
+  "maintenance": {
+    "incidents": {
+      "list": {
+        "section": "Gestión de incidencias",
+        "title": "Incidencias de maquinaria",
+        "subtitle": "Registra y consulta los problemas reportados en la maquinaria de tu empresa.",
+        "view-maintenance": "Ver mantenimientos",
+        "register": "Registrar incidencia",
+        "total": "Incidencias registradas",
+        "affected-equipment": "Maquinarias afectadas",
+        "last-report": "Último reporte",
+        "success": "Incidencia registrada correctamente.",
+        "history": "Historial de incidencias",
+        "records": "Incidencias registradas",
+        "load-error": "No se pudieron cargar las incidencias.",
+        "empty-title": "Aún no hay incidencias registradas",
+        "empty-description": "Registra una incidencia cuando una maquinaria presente un problema.",
+        "no-equipment": "Primero debes registrar una maquinaria.",
+        "add-equipment": "Registrar maquinaria",
+        "equipment": "Maquinaria",
+        "date": "Fecha del reporte",
+        "description": "Descripción del problema",
+        "status": "Estado",
+        "open": "Abierta",
+        "resolved": "Resuelta",
+        "rental-restriction": "Retiro temporal",
+        "blocked": "Bloqueante",
+        "not-blocked": "Sin retiro",
+        "actions": "Acciones",
+        "resolve": "Resolver incidencia",
+        "resolve-warning": "Confirma que el problema fue atendido. Resolver no vuelve a habilitar la maquinaria.",
+        "cancel-resolve": "Cancelar",
+        "confirm-resolve": "Confirmar resolución",
+        "resolving": "Resolviendo...",
+        "resolve-success": "Incidencia resuelta. Si la maquinaria estaba en mantenimiento, permanecerá fuera de servicio hasta su reactivación manual.",
+        "require-restriction": "Marcar bloqueante",
+        "confirm-restriction": "Confirmar retiro",
+        "restricting": "Actualizando...",
+        "restriction-warning": "Al confirmar, esta incidencia quedara como bloqueante y la maquinaria sera retirada temporalmente de nuevos alquileres. Esta accion no cancela alquileres existentes ni vuelve disponible el equipo.",
+        "restriction-success": "La incidencia ahora es bloqueante. La maquinaria permanece en mantenimiento y no admite nuevos alquileres.",
+        "resolve-short": "Resolver",
+        "no-actions": "Sin acciones",
+        "reactivation-title": "Reactivación de maquinaria",
+        "reactivation-description": "Puedes reactivar equipos en mantenimiento una vez resueltas sus incidencias bloqueantes y confirmada su inspección técnica.",
+        "reactivate": "Reactivar maquinaria",
+        "reactivate-warning": "La maquinaria volverá a estar disponible para nuevas solicitudes. Comprueba que no haya alquileres activos ni otras causas de mantenimiento pendientes.",
+        "inspection-confirmed": "Confirmo que inspeccioné la maquinaria, está apta para operar y no tiene alquileres activos.",
+        "confirm-reactivation": "Confirmar reactivación",
+        "reactivating": "Reactivando...",
+        "reactivation-success": "Maquinaria reactivada. Su estado ahora es Disponible; el historial de incidencias se conserva."
+      },
+      "form": {
+        "section": "Registro de incidencias",
+        "title": "Registrar incidencia",
+        "subtitle": "Selecciona la maquinaria afectada y describe el problema ocurrido.",
+        "equipment": "Maquinaria",
+        "equipment-required": "Selecciona una maquinaria.",
+        "description": "Descripción del problema",
+        "description-placeholder": "Describe la falla, avería o problema presentado por la maquinaria.",
+        "description-required": "Ingresa una descripción válida del problema.",
+        "cancel": "Cancelar",
+        "saving": "Guardando...",
+        "save": "Guardar incidencia",
+        "block-rental": "Retirar temporalmente del alquiler",
+        "block-rental-hint": "Activa esta opción si la maquinaria no puede operar con seguridad. Se marcará como en mantenimiento y no podrá recibir nuevos alquileres. Los equipos actualmente alquilados requieren una gestión independiente."
+      }
+    },
+    "schedule": {
+      "list": {
+        "subtitle": "Registra mantenimientos realizados y programa nuevas intervenciones para tu maquinaria.",
+        "button": "Programar mantenimiento",
+        "pending": "Pendientes",
+        "success": "Mantenimiento programado correctamente.",
+        "empty-description": "Registra un mantenimiento realizado o programa la próxima intervención.",
+        "filter-label": "Filtrar registros de mantenimiento",
+        "filter-all": "Todos",
+        "filter-pending": "Pendientes",
+        "no-pending": "No hay mantenimientos programados pendientes."
+      },
+      "form": {
+        "section": "Programación de mantenimiento",
+        "title": "Programar mantenimiento",
+        "subtitle": "Selecciona una maquinaria y una fecha igual o posterior a hoy.",
+        "date": "Fecha programada",
+        "date-invalid": "La fecha programada no puede ser anterior a hoy.",
+        "saving": "Programando...",
+        "save": "Guardar programación"
+      }
+    },
+    "list": {
+      "section": "Gestión de mantenimiento",
+      "title": "Mantenimiento",
+      "subtitle": "Registra los mantenimientos realizados y consulta las intervenciones de tu maquinaria.",
+      "register": "Registrar mantenimiento",
+      "total": "Registros totales",
+      "completed": "Completados",
+      "equipment-with-records": "Maquinarias con mantenimiento",
+      "success": "Mantenimiento registrado correctamente.",
+      "history": "Historial de mantenimiento",
+      "records": "Registros de mantenimiento",
+      "load-error": "No se pudieron cargar los mantenimientos.",
+      "empty-title": "Aún no hay mantenimientos registrados",
+      "empty-description": "Registra el primer mantenimiento realizado a tu maquinaria.",
+      "no-equipment": "Primero debes registrar una maquinaria.",
+      "add-equipment": "Registrar maquinaria",
+      "equipment": "Maquinaria",
+      "date": "Fecha",
+      "type": "Tipo",
+      "status": "Estado"
+    },
+    "form": {
+      "section": "Registro de mantenimiento",
+      "title": "Registrar mantenimiento",
+      "subtitle": "Registra una intervención ya realizada sobre una maquinaria.",
+      "equipment": "Maquinaria",
+      "equipment-required": "Selecciona una maquinaria.",
+      "date": "Fecha del mantenimiento",
+      "date-required": "Ingresa la fecha del mantenimiento.",
+      "date-invalid": "La fecha del mantenimiento no puede ser futura.",
+      "type": "Tipo de mantenimiento",
+      "type-placeholder": "Por ejemplo, mantenimiento preventivo",
+      "type-required": "Ingresa el tipo de mantenimiento.",
+      "cancel": "Cancelar",
+      "saving": "Guardando...",
+      "save": "Guardar mantenimiento"
+    },
+    "status": {
+      "scheduled": "Programado",
+      "in_progress": "En curso",
+      "completed": "Completado"
     }
   }
 }

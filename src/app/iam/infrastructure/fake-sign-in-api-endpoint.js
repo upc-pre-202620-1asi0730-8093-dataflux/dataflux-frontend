@@ -1,10 +1,10 @@
-import { FetchClient, QueryParams, resolve } from '../../shared/infrastructure/services.js';
+import { HttpClient, QueryParams, resolve } from '../../shared/infrastructure/services.js';
 import { catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.js';
 
 const usersEndpointUrl = `${environment.platformProviderApiBaseUrl}/users`;
 export class FakeSignInApiEndpoint {
-  #http = resolve(FetchClient);
+  #http = resolve(HttpClient);
   signIn(signInCommand) {
     const params = new QueryParams()
       .set('email', signInCommand.email)

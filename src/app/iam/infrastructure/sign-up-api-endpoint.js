@@ -1,4 +1,4 @@
-import { FetchClient, resolve } from '../../shared/infrastructure/services.js';
+import { HttpClient, resolve } from '../../shared/infrastructure/services.js';
 import { catchError, map } from 'rxjs';
 import { environment } from '../../../environments/environment.js';
 import { ErrorHandlingEnabledBaseType } from '../../shared/infrastructure/error-handling-enabled-base-type.js';
@@ -7,7 +7,7 @@ import { SignUpAssembler } from './sign-up-assembler.js';
 const signUpApiEndpointUrl =
   `${environment.platformProviderApiBaseUrl}` + `${environment.platformProviderSignUpEndpointPath}`;
 export class SignUpApiEndpoint extends ErrorHandlingEnabledBaseType {
-  #http = resolve(FetchClient);
+  #http = resolve(HttpClient);
   #assembler = new SignUpAssembler();
   signUp(signUpCommand) {
     const signUpRequest = this.#assembler.toRequestFromCommand(signUpCommand);

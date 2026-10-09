@@ -1,10 +1,10 @@
-import { FetchClient, resolve } from '../../shared/infrastructure/services.js';
+import { HttpClient, resolve } from '../../shared/infrastructure/services.js';
 import { catchError, map } from 'rxjs';
 import { environment } from '../../../environments/environment.js';
 import { ErrorHandlingEnabledBaseType } from '../../shared/infrastructure/error-handling-enabled-base-type.js';
 
 export class SubscriptionAccessAclAdapter extends ErrorHandlingEnabledBaseType {
-  #http = resolve(FetchClient);
+  #http = resolve(HttpClient);
   #endpointUrl = `${environment.platformProviderApiBaseUrl}${environment.platformProviderUserSubscriptionsEndpointPath}`;
   hasActiveSubscription(userId) {
     return this.#http.get(this.#endpointUrl).pipe(

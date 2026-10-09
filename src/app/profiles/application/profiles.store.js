@@ -1,3 +1,5 @@
+import { defineStore } from "pinia";
+import { registerStore, exposeStore } from "../../shared/infrastructure/services.js";
 import { resolve, sessionEnded } from "../../shared/infrastructure/services.js";
 import { shallowRef, shallowReadonly } from "vue";
 import { firstValueFrom, takeUntil, retry } from "rxjs";
@@ -82,3 +84,6 @@ export class ProfilesStore {
     return fallback;
   }
 }
+
+export const useProfilesStore = defineStore("profiles", () => exposeStore(new ProfilesStore()));
+registerStore(ProfilesStore, useProfilesStore);

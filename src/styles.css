@@ -1,4 +1,5 @@
 :root {
+  font-size: 14px;
   font-family:
     Inter,
     Segoe UI,
@@ -24,7 +25,7 @@ h3 {
   letter-spacing: -0.025em;
 }
 h1 {
-  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-size: clamp(1.5rem, 2.1vw, 2rem);
   margin: 8px 0 14px;
 }
 h2 {
@@ -67,6 +68,11 @@ button:disabled {
   cursor: not-allowed;
 }
 .secondary {
+  background: #fff;
+  color: var(--dark);
+  border-color: var(--border);
+}
+.p-button.secondary {
   background: #fff;
   color: var(--dark);
   border-color: var(--border);
@@ -141,8 +147,8 @@ form > button {
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 26px;
-  margin: 22px 0;
+  padding: 20px;
+  margin: 18px 0;
   box-shadow: 0 3px 10px #14263803;
 }
 .cards {
@@ -156,15 +162,15 @@ form > button {
 .stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  margin: 26px 0;
+  gap: 16px;
+  margin: 22px 0;
 }
 .stats .card {
   margin: 0;
 }
 .stats strong {
   display: block;
-  font-size: 2.1rem;
+  font-size: 1.8rem;
   color: var(--dark);
   margin-top: 12px;
 }
@@ -311,14 +317,22 @@ dd {
   min-height: 100vh;
 }
 .sidebar {
-  width: 245px;
+  width: 220px;
   background: #fff;
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  padding: 28px 16px;
+  padding: 20px 14px;
   position: fixed;
   height: 100vh;
+}
+.sidebar > a:first-child {
+  display: flex;
+  justify-content: center;
+}
+.sidebar .logo {
+  width: 144px;
+  max-width: 100%;
 }
 .logo {
   width: 190px;
@@ -332,12 +346,12 @@ dd {
   display: flex;
   flex-direction: column;
   gap: 7px;
-  margin-top: 45px;
+  margin-top: 24px;
 }
 .sidebar nav a {
   color: #637184;
   font-size: 0.9rem;
-  padding: 13px 17px;
+  padding: 10px 12px;
   border-radius: 7px;
 }
 .sidebar nav a.router-link-active {
@@ -352,11 +366,14 @@ dd {
   color: #8591a2;
 }
 .workspace-body {
-  margin-left: 245px;
-  width: calc(100% - 245px);
+  margin-left: 220px;
+  width: calc(100% - 220px);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 .topbar {
-  padding: 18px 35px;
+  padding: 12px 24px;
   background: #fff;
   border-bottom: 1px solid var(--border);
   display: flex;
@@ -374,12 +391,14 @@ dd {
   min-width: 105px;
 }
 .page {
-  padding: 35px;
+  padding: 24px;
   max-width: 1400px;
-  margin: auto;
+  width: 100%;
+  margin: 0 auto;
+  flex: 1;
 }
 footer {
-  padding: 24px 35px;
+  padding: 16px 24px;
   color: #8591a2;
   font-size: 0.75rem;
 }
@@ -453,7 +472,7 @@ footer {
     width: calc(100% - 200px);
   }
   .sidebar .logo {
-    width: 160px;
+    width: 136px;
   }
   .page {
     padding: 24px;
@@ -553,3 +572,7 @@ footer {
     min-width: 100%;
   }
 }
+
+.skip-link { position:fixed; top:8px; left:8px; transform:translateY(-150%); z-index:1000; background:white; padding:12px; }
+.skip-link:focus { transform:none; }
+button:focus-visible, a:focus-visible { outline:2px solid var(--brand); outline-offset:3px; }

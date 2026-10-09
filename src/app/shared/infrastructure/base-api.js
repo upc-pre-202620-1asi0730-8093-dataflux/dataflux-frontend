@@ -1,4 +1,4 @@
-import { FetchClient, resolve } from './services.js';
+import { HttpClient, resolve } from './services.js';
 export class BaseApi {
-  http = resolve(FetchClient);
+  http = resolve(HttpClient);
 }

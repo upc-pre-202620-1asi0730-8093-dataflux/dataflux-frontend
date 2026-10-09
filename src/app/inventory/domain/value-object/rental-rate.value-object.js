@@ -1,20 +1,33 @@
+import { Money } from "../../../shared/domain/value-object/money.value-object.js";
 export class RentalRate {
-    #dailyRate;
-    #weeklyRate;
-    constructor(props) {
-        if (props.dailyRate <= 0) {
-            throw new Error('Daily rate must be greater than zero');
-        }
-        if (props.weeklyRate <= 0) {
-            throw new Error('Weekly rate must be greater than zero');
-        }
-        this.#dailyRate = props.dailyRate;
-        this.#weeklyRate = props.weeklyRate;
+  #daily;
+  #weekly;
+  constructor({ dailyRate, weeklyRate, currency = "PEN" }) {
+    if (
+      !Number.isFinite(dailyRate) ||
+      dailyRate <= 0 ||
+      !Number.isFinite(weeklyRate) ||
+      weeklyRate <= 0
+    ) {
+      throw new Error("Rental rates must be finite numbers greater than zero");
     }
-    get dailyRate() {
-        return this.#dailyRate;
-    }
-    get weeklyRate() {
-        return this.#weeklyRate;
-    }
+    this.#daily = new Money({ amount: dailyRate, currency });
+    this.#weekly = new Money({ amount: weeklyRate, currency });
+    Object.freeze(this);
+  }
+  get dailyRate() {
+    return this.#daily.amount;
+  }
+  get weeklyRate() {
+    return this.#weekly.amount;
+  }
+  get dailyMoney() {
+    return this.#daily;
+  }
+  get weeklyMoney() {
+    return this.#weekly;
+  }
+  get currency() {
+    return this.#daily.currency;
+  }
 }

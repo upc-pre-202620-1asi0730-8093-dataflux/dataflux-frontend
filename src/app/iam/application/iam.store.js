@@ -1,3 +1,5 @@
+import { defineStore } from "pinia";
+import { registerStore, exposeStore } from "../../shared/infrastructure/services.js";
 import { shallowRef, shallowReadonly, computed } from 'vue';
 import { firstValueFrom } from 'rxjs';
 import { resolve } from '../../shared/infrastructure/services.js';
@@ -108,3 +110,6 @@ export class IamStore {
     this.#status.value = null;
   }
 }
+
+export const useIamStore = defineStore("iam", () => exposeStore(new IamStore()));
+registerStore(IamStore, useIamStore);

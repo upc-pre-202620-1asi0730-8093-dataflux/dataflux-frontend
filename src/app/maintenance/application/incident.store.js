@@ -1,3 +1,5 @@
+import { defineStore } from "pinia";
+import { registerStore, exposeStore } from "../../shared/infrastructure/services.js";
 import { resolve, sessionEnded } from '../../shared/infrastructure/services.js';
 import { shallowRef, shallowReadonly, computed } from 'vue';
 import { takeUntil } from 'rxjs';
@@ -399,3 +401,6 @@ export class IncidentStore {
     return fallbackMessage;
   }
 }
+
+export const useIncidentStore = defineStore("incident", () => exposeStore(new IncidentStore()));
+registerStore(IncidentStore, useIncidentStore);

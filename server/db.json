@@ -30,5 +30,30 @@
       "status": "ACTIVE"
     }
   ],
-  "user-subscriptions": []
+  "user-subscriptions": [],
+  "equipment": [],
+  "rental-requests": [],
+  "rentals": [],
+  "deliveries": [],
+  "equipment-returns": [],
+  "maintenances": [],
+  "incidents": [],
+  "equipment-categories": [
+    {
+      "id": 1,
+      "name": "Excavadoras"
+    },
+    {
+      "id": 2,
+      "name": "Cargadores"
+    },
+    {
+      "id": 3,
+      "name": "Grúas"
+    },
+    {
+      "id": 4,
+      "name": "Compactadores"
+    }
+  ]
 }

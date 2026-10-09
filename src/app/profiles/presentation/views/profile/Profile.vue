@@ -1,6 +1,8 @@
 <script setup>
-import { computed, reactive, ref, onMounted } from "vue";
+import { computed, reactive, ref, onMounted, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
+import InputText from "primevue/inputtext";
+import Button from "primevue/button";
 import { useServices } from "../../../../app.services.js";
 import { CompanyProfile } from "../../../domain/model/company-profile.entity.js";
 import { Address } from "../../../domain/value-object/address.value-object.js";
@@ -8,6 +10,7 @@ import Feedback from "../../../../shared/presentation/components/feedback/Feedba
 const { iam, profiles: store } = useServices();
 const { t } = useI18n();
 const editing = ref(false);
+const editTrigger = ref(null);
 const saved = ref(false);
 const validation = ref(null);
 const form = reactive({});
@@ -41,7 +44,7 @@ function value(key) {
     "—"
   );
 }
-function edit() {
+async function edit() {
   const p = profile.value;
   for (const key of Object.keys(fields)) form[key] = p?.[key] ?? "";
   form.contactEmail ||= iam.currentEmail.value ?? "";
@@ -49,6 +52,14 @@ function edit() {
   validation.value = null;
   saved.value = false;
   editing.value = true;
+  await nextTick();
+  document.getElementById("profile-firstName")?.focus();
+}
+async function finishEditing() {
+  editing.value = false;
+  validation.value = null;
+  await nextTick();
+  editTrigger.value?.$el?.focus();
 }
 async function submit() {
   if (store.loading.value) return;
@@ -77,7 +88,7 @@ async function submit() {
     }),
   );
   if (success) {
-    editing.value = false;
+    await finishEditing();
     saved.value = true;
   }
 }
@@ -113,22 +124,32 @@ async function submit() {
         </dl>
       </section>
     </div>
-    <button class="secondary" @click="edit">{{ t("profile.edit") }}</button>
+    <Button
+      ref="editTrigger"
+      type="button"
+      class="secondary"
+      @click="edit"
+      :label="t('profile.edit')"
+    />
   </template>
-  <button
+  <Button
+    type="button"
     v-if="store.error.value && !editing && !store.loading.value"
     class="secondary"
     @click="load"
-  >
-    {{ t("profile.retry") }}
-  </button>
+    :label="t('profile.retry')"
+  />
   <section v-if="editing" class="card">
-    <form @submit.prevent="submit">
+    <form @submit.prevent="submit" :aria-busy="store.loading.value">
       <fieldset :disabled="store.loading.value">
         <div class="form-grid">
-          <label v-for="(label, key) in fields" :key="key"
+          <label
+            v-for="(label, key) in fields"
+            :key="key"
+            :for="'profile-' + key"
             >{{ t("profile." + label) }}
-            <input
+            <InputText
+              :id="'profile-' + key"
               v-model="form[key]"
               :type="
                 key === 'contactEmail'
@@ -140,22 +161,24 @@ async function submit() {
               :required="key !== 'phoneNumber'"
             />
           </label>
-          <label v-for="key in addressFields" :key="key"
-            >{{ t("profile." + key) }}<input v-model="form[key]"
+          <label v-for="key in addressFields" :key="key" :for="'profile-' + key"
+            >{{ t("profile." + key)
+            }}<InputText :id="'profile-' + key" v-model="form[key]"
           /></label>
         </div>
         <div class="actions">
-          <button>{{ t("profile.save") }}</button>
-          <button
+          <Button
+            type="submit"
+            :disabled="store.loading.value"
+            :label="t('profile.save')"
+          />
+          <Button
             type="button"
             class="secondary"
-            @click="
-              editing = false;
-              validation = null;
-            "
-          >
-            {{ t("profile.cancel") }}
-          </button>
+            :disabled="store.loading.value"
+            @click="finishEditing"
+            :label="t('profile.cancel')"
+          />
         </div>
       </fieldset>
     </form>
